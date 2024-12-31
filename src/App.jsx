@@ -1,9 +1,12 @@
+import { BrowserRouter } from "react-router"
+import Routers from "./Routers/Routers"
+
 
 function App() {
   return (
-    <div>
-      Hire 2.0    
-    </div>
+  <BrowserRouter>
+  <Routers/>
+  </BrowserRouter>
   )
 }
 
