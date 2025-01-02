@@ -49,7 +49,7 @@ const navigate = useNavigate()
         <FaPeopleGroup size='26px' color="#57A8FF"/>
         </div>
         <div className="text-sm">
-            <p>Jon Type</p>
+            <p>Job Type</p>
             <strong>Office job</strong>
         </div>
         </div>
@@ -137,7 +137,7 @@ const navigate = useNavigate()
 
 
          {/* Last div */}
-         <div className=" px-4 py-6 border-b-2">
+         <div className=" px-4 py-6 ">
             <Button className="bg-[#57A8FF]">Login to Update</Button>
          </div>
       </div>
