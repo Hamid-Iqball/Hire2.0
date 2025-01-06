@@ -7,7 +7,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
 import { GrDocumentText } from "react-icons/gr";
 import { LuMapPinHouse } from "react-icons/lu";
-import { MdDateRange } from "react-icons/md";
+import { MdDateRange, MdOutlinePersonPin } from "react-icons/md";
 import { PiOfficeChairFill } from "react-icons/pi";
 import { TiArrowBack } from "react-icons/ti";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,14 +17,14 @@ const { id } = useParams();
 const navigate = useNavigate()
   return (
 
-    <div className="bg-white p-6 px-8 rounded-2xl border-[8px] border-gray-900  ">
+    <div className="bg-white px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-[8px] border-[#606060] xs:px-4  ">
       <h2 className="text-xl font-semibold mb-4 flex justify-between items-center">{id} <span  onClick={()=>navigate(-1)} className="cursor-pointer"><TiArrowBack color="#57A8FF" size='24px'/></span></h2>
       <div>
 
         {/* Section - 1 */}
-        <div className="flex justify-between items-center gap-1 border-b-2 border-dashed px-4 py-6 ">
+        <div className="grid grid-cols-2 gap-x-1 lg:grid-cols-3 gap-y-6 sm:gap-y-10  border-b-2 border-dashed  px-2 md:px-4 py-6 flex-wrap  ">
 
-        <div className="grid grid-cols-[0.9fr,1fr] gap-3">
+        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
             <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
             <BsGenderAmbiguous size='26px' color="#57A8FF"/>
             </div>
@@ -34,7 +34,7 @@ const navigate = useNavigate()
             </div>
         </div>
 
-        <div className="grid grid-cols-[0.7fr,1fr] gap-3">
+        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
         <div className="border border-blue-400  rounded-full flex justify-center items-center">
         <FaPeopleGroup size='26px' color="#57A8FF"/>
         </div>
@@ -44,22 +44,16 @@ const navigate = useNavigate()
         </div>
         </div>
 
-        <div className="grid grid-cols-[0.6fr,1fr] gap-3">
+        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
         <div className="border border-blue-400  rounded-full flex justify-center items-center">
-        <FaPeopleGroup size='26px' color="#57A8FF"/>
+        <MdOutlinePersonPin size='26px' color="#57A8FF"/>
         </div>
         <div className="text-sm">
             <p>Job Type</p>
             <strong>Office job</strong>
         </div>
         </div>
-  
-        </div>
-
-        {/* Section - 2 */}
-        <div className="flex justify-between items-center gap-1 border-b-2 border-dashed px-4 py-6">
-
-        <div className="grid grid-cols-[0.6fr,1fr] gap-3">
+        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
             <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
             <PiOfficeChairFill size='26px' color="#57A8FF"/>
             </div>
@@ -68,8 +62,9 @@ const navigate = useNavigate()
                 <strong>5</strong>
             </div>
         </div>
+  
 
-        <div className="grid grid-cols-[0.4fr,1fr] ml-2 gap-2">
+        <div className="grid grid-cols-[0.153fr,1fr] col-span-2 xl:col-span-1 gap-2">
         <div className="border border-blue-400  rounded-full flex justify-center items-center">
         <MdDateRange size='26px' color="#57A8FF"/>
         </div>
@@ -79,9 +74,10 @@ const navigate = useNavigate()
         </div>
         </div>
 
-        <div className="grid grid-cols-[0.5fr,1fr] gap-2">
+
+        <div className="grid grid-cols-[0.3fr,1fr] gap-2">
         <div className="border border-blue-400  rounded-full flex justify-center items-center">
-        <FaCalendar size='26px' color="#57A8FF"/>
+        <FaCalendar size='24px' color="#57A8FF"/>
         </div>
         <div className="text-sm">
             <p>Experience</p>
@@ -89,15 +85,10 @@ const navigate = useNavigate()
         </div>
         </div>
 
-        </div>
 
-
-        {/* Section - 3 */}
-        <div className="grid grid-cols-2 px-4 py-6 border-b-2 border-dashed">
-
-        <div className="grid grid-cols-[0.2fr,1fr] gap-2">
+        <div className="grid grid-cols-[0.12fr,1fr] col-span-2 gap-2">
             <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
-            <LuMapPinHouse size='26px' color="#57A8FF"/>
+            <LuMapPinHouse size='22px' color="#57A8FF"/>
             </div>
             <div className="text-sm">
                 <p>Location</p>
@@ -105,7 +96,8 @@ const navigate = useNavigate()
             </div>
         </div>
 
-            <div className="grid grid-cols-[0.2fr,1fr] ml-2 gap-2">
+
+            <div className="grid grid-cols-[0.13fr,1fr] col-span-2 xl:col-span-1 gap-2">
             <div className="border border-blue-400  rounded-full flex justify-center items-center">
             <GiGraduateCap size='26px' color="#57A8FF"/>
             </div>
@@ -114,14 +106,18 @@ const navigate = useNavigate()
                 <strong>Any degree</strong>
             </div>
             </div>
-
-     
-
         </div>
+
+   
+
+<div>
+
+</div>
+ 
 
 
         {/*Description  */}
-        <div className="grid grid-cols-1 px-4 py-6 border-b-2 border-dashed">
+        <div className="grid grid-cols-1 px-2 sm:px-4 py-6 border-b-2 border-dashed">
         <div className="grid grid-cols-[0.1fr,1fr] gap-2">
 
         <div className="border border-blue-400  rounded-full flex justify-center items-center p-2 place-self-start">
@@ -138,7 +134,7 @@ const navigate = useNavigate()
 
          {/* Last div */}
          <div className=" px-4 py-6 ">
-            <Button className="bg-[#57A8FF]">Login to Update</Button>
+            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/updateProfile")}>Login to Update</Button>
          </div>
       </div>
     </div>

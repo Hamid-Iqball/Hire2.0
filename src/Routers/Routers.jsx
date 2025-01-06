@@ -1,12 +1,31 @@
 import { Route, Routes } from "react-router";
 import Home from "../Pages/Home";
 import JobDetails from "../Pages/JobDetails";
+import UpdateProfile from "../Pages/UpdateProfile";
+import AppLayout from "../Components/AppLayout";
+import PersonalInformation from "../Pages/PersonalInformation";
+import EducationalInfo from "../Pages/EducationalInfo";
+import WorkExperienceInfor from "../Pages/WorkExperienceInfor";
+
 
 function Routers() {
   return (
     <Routes>
-      <Route path="/" element={<Home />}>
+      {/* Wrap routes with AppLayout to maintain a consistent layout */}
+      <Route path="/" element={<AppLayout />}>
+        {/* Home Page */}
+        <Route path="/" element={<Home />} >
+
+        {/* Job Details Page */}
         <Route path="vacancy/:id" element={<JobDetails />} />
+</Route>
+        {/* Update Profile Page */}
+        <Route path="/updateProfile" element={<UpdateProfile />}>
+        <Route path="personal" element={<PersonalInformation/>}  />
+        <Route path="educational" element={< EducationalInfo/>}
+        />
+        <Route path="experience" element={<WorkExperienceInfor/>} />
+        </Route>
       </Route>
     </Routes>
   );
