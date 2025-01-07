@@ -1,8 +1,14 @@
 import { Button, Input, Textarea } from "@material-tailwind/react";
 import FloatingLabelSelect from  "../Components/FloatingLabelSelect"
+import { useNavigate } from "react-router";
+import {motion} from "framer-motion"
 
 
 function PersonalInformation() {
+
+
+const navigate = useNavigate()
+
   const genderOptions = [
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
@@ -26,7 +32,15 @@ function PersonalInformation() {
   return (
     <section className="grid grid-cols-2 gap-4 mt-8 ">
     
-      <form className="grid grid-cols-2 gap-x-8 gap-y-0">
+      <motion.form 
+      initial={{x:-100, opacity:0}}
+      animate={{x:0,opacity:100}}
+      transition={{
+        duration:0.7,
+        ease:"easeInOut"
+
+      }}
+      className="grid grid-cols-2 gap-x-8 gap-y-0">
         <Input label="Name" color="blue" />
         <Input label="Father Name" color="blue" />
         <Input label="Date-of-Birth" color="blue" />
@@ -39,14 +53,29 @@ function PersonalInformation() {
         <Input label="Email" color="blue"/>
         <Textarea label="Current address" color="blue"/>
         <Textarea label="Permanat address" color="blue"/>
-      </form>
+      </motion.form>
 
-      <div className="flex justify-center items-center">
+      <motion.div 
+      initial={{y:100, opacity:0}}
+      animate={{y:0,opacity:1}}
+      transition={{
+        duration:0.6,
+        ease:"easeIn"
+      }}
+      className="flex justify-center items-center">
         <img src="/Images/personal.png" alt="image" className="w-2/3" />
-      </div>
+ 
+ </motion.div>
+
+
       <div className="flex justify-start col-span-full items-start gap-5">
       <Button variant="outlined" size="sm" color="blue" >Update CV</Button>
       <Button variant="outlined" size="sm" color="blue" >Update Profile</Button>
+      </div>
+
+      <div>
+      <Button color="blue" size="sm" className="px-9" onClick={()=>navigate("/updateProfile/educational")}>Next</Button>
+
       </div>
     </section>
   );

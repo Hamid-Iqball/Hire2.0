@@ -100,7 +100,7 @@ const navigate = useNavigate()
 
       </motion.nav>
 
-    <span className="flex justify-start items-center gap-2  mb-4 w-48 cursor-pointer hover:text-blue-400 transition-colors duration-300 ease-in-out" onClick={()=>navigate("/")}> <FaArrowLeftLong size='20'/> <h1 className='font-bold'>All Jobs Openings</h1></span>
+    <span className="flex justify-start items-center gap-2  my-4 w-48 cursor-pointer hover:text-blue-400 transition-colors duration-300 ease-in-out" onClick={()=>navigate("/")}> <FaArrowLeftLong size='20'/> <h1 className='font-bold'>All Jobs Openings</h1></span>
 
       <div>
         <Outlet />
