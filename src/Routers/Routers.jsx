@@ -18,9 +18,10 @@ function Routers() {
 
         {/* Job Details Page */}
         <Route path="vacancy/:id" element={<JobDetails />} />
-</Route>
-        {/* Update Profile Page */}
+      </Route>
+     
         <Route path="/updateProfile" element={<UpdateProfile />}>
+        <Route index element={<PersonalInformation/>}/>
         <Route path="personal" element={<PersonalInformation/>}  />
         <Route path="educational" element={< EducationalInfo/>}
         />
