@@ -16,12 +16,12 @@ const navigate = useNavigate()
         duration: 0.8,
         ease: "easeInOut",
       }}
-      className="flex justify-start gap-16 mb-4">
+      className="flex justify-start items-center gap-10 sm:gap-16 mb-4">
 
       <NavLink
             to="personal"
         className={({ isActive }) =>
-            `flex flex-col items-center justify-start gap-2 ${
+            `flex flex-col items-center justify-center text-center gap-2 ${
             isActive ? "text-black" : "text-gray-500"
             }`
         }
@@ -47,7 +47,7 @@ const navigate = useNavigate()
     <NavLink
             to="educational"
         className={({ isActive }) =>
-            `flex flex-col items-center justify-start gap-2 transition duration-300 ease-in-out ${
+            `flex flex-col items-center justify-start text-center gap-2 transition duration-300 ease-in-out ${
             isActive ? "text-black" : "text-gray-500"
             }`
         }
@@ -73,7 +73,7 @@ const navigate = useNavigate()
     <NavLink
             to="experience"
         className={({ isActive }) =>
-            `flex flex-col items-center justify-start gap-2 ${
+            `flex flex-col items-center text-center justify-start gap-2 ${
             isActive ? "text-black" : "text-gray-500"
             }`
         }

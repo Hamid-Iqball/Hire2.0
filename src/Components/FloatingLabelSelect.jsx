@@ -6,14 +6,11 @@ const customStyles = {
   control: (provided, state) => ({
     ...provided,
     backgroundColor: "",
-    borderColor: state.isFocused ? "#57A8FF" : "#B0BEC5", // Match hover color on focus
-    borderWidth: "1px",
+    borderColor: state.isFocused ? "#57A8FF" : "#B0BEC5", 
+    borderWidth: state.isFocused?"2px":"1.5px",
     borderRadius: "0.375rem",
     boxShadow: "none",
-    "&:hover": {
-      borderColor: "#57A8FF",
-      borderWidth: "2px",
-    },
+   
   }),
   placeholder: () => ({
     display: "none",
@@ -39,7 +36,7 @@ function FloatingLabelSelect({ label, options }) {
         className={`absolute left-2 text-sm transition-all duration-200 ${
           isFocused || isSelected
             ? "-top-2 text-blue-500 text-xs mx-1 z-10 bg-[#F4F7FA]"
-            : "top-[9px] text-sm z-10 left-3 text-[#979ea1]"
+            : "top-[9px] text-sm z-10 left-3 text-[#698192]"
         } 
         
         ${!isFocused?"text-[#979ea1]": "text-blue-500"}
