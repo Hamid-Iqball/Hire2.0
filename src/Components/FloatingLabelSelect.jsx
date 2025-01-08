@@ -10,8 +10,8 @@ const customStyles = {
     borderWidth: state.isFocused?"2px":"1.5px",
     borderRadius: "0.375rem",
     boxShadow: "none",
-   
   }),
+  
   placeholder: () => ({
     display: "none",
   }),
@@ -23,7 +23,12 @@ const customStyles = {
       ? "#bfdbfe"
       : "#fff",
     color: state.isSelected ? "#fff" : "#000",
+    
   }),
+  menu:(provided)=>({
+    ...provided,
+    zIndex:1000,
+  })
 };
 
 function FloatingLabelSelect({ label, options }) {
