@@ -30,7 +30,7 @@ const navigate = useNavigate()
   ]
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 ">
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 ">
     
     {/* Form */}
       <motion.form 
@@ -41,7 +41,7 @@ const navigate = useNavigate()
         ease:"easeInOut"
 
       }}
-      className="grid gird-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 sm:gap-y-0 order-2 sm:order-1">
+      className="grid gird-cols-1 sm:grid-cols-2 gap-x-8 md:grid-cols-1 md:gap-y-2 lg:grid-cols-2 lg:gap-y-2 gap-y-2 order-2 md:order-1">
         <Input label="Name" color="blue"  />
         <Input label="Father Name" color="blue" />
         <Input label="Date-of-Birth" color="blue" />
@@ -64,7 +64,7 @@ const navigate = useNavigate()
         duration:0.6,
         ease:"easeIn"
       }}
-      className="flex justify-center items-center order-1 sm:order-2">
+      className="flex justify-center items-center order-1 md:order-2">
       <img src="/Images/personal.png" alt="image" className="w-2/3" />
       </motion.div>
 

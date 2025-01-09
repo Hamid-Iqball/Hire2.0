@@ -29,16 +29,16 @@ function WorkExperienceInfor() {
   ]
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 ">
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8  ">
     <motion.form 
-    initial={{x:-100, opacity:0}}
+    initial={{x:-70, opacity:0}}
     animate={{x:0,opacity:100}}
     transition={{
       duration:0.7,
       ease:"easeInOut"
-
     }}
-    className="grid gird-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 sm:gap-y-1 order-2 sm:order-1 ">
+    
+    className="grid gird-cols-1 sm:grid-cols-2 gap-x-8 md:grid-cols-1 md:gap-y-2 lg:grid-cols-2 lg:gap-y-2 gap-y-2 order-2 md:order-1">
       <Input label="Name" color="blue"  />
       <Input label="Father Name" color="blue" />
       <Input label="Date-of-Birth" color="blue" />
@@ -61,19 +61,19 @@ function WorkExperienceInfor() {
         duration:0.6,
         ease:"easeIn"
       }}
-    className="flex justify-center items-center order-1 sm:order-2 overflow-x-hidden">
+    className="flex justify-center items-center order-1 md:order-2">
       <img src="/Images/experience.png" alt="image" className="w-2/3" />
     </motion.div>
 
      <div className="flex justify-start col-span-full items-start gap-5 order-last">
           <Button variant="outlined" size="sm" color="blue" >Update CV</Button>
           <Button variant="outlined" size="sm" color="blue" >Update Profile</Button>
-          </div>
+      </div>
     
-          <div className="order-last">
+      <div className="order-last">
           <Button color="blue" size="sm" className="px-9 " >Submit</Button>
     
-          </div>
+      </div>
   </section>
   )
 }
