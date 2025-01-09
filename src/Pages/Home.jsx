@@ -1,6 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { FiLogIn } from "react-icons/fi";
 import { PiBagSimpleFill } from "react-icons/pi";
 
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
@@ -18,10 +19,25 @@ function Home() {
     setIsClicked(true)
   }
   return (
+<>
+    <header className="flex justify-between p-2  ">        
+       <div className="p-2">
+          <span>
+            <img src="/Images/logo.png" alt="Logo" />
+          </span>
+        </div>
+
+
+        <div className="p-2">
+            <Button  className="p-2 bg-[#57A8FF] flex gap-2 "> <span><FiLogIn size='16px'/></span>login</Button>
+          </div>
+      </header>
+
+
     <div className=" flex flex-col justify-between bg-[#f4f7fa] "> 
 
 
-      <section className="grid md:grid-cols-[0.8fr,1fr] sm:grid-cols-1 gap-0 h-auto relative">
+     <section className="grid md:grid-cols-[0.8fr,1fr] sm:grid-cols-1 gap-0 h-auto relative">
   {/* Sidebar */}
   <div className="flex flex-col gap-3 order-2 mt-10 md:my-0 md:order-1">
     <motion.div
@@ -87,6 +103,7 @@ function Home() {
 
  
     </div>
+            </>
   );
 }
 
