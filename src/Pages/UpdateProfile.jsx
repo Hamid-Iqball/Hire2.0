@@ -14,9 +14,7 @@ const navigate = useNavigate()
     <div>
     <h1 className="text-3xl sm:text-4xl text-center font-[300] mb-2">Machine Learning Engineer</h1>
     <div className="flex gap-1 justify-center items-center text-xs">
-        <MdLocationPin/> <p>
-             Islamabad,Pakistan
-            </p>
+        <MdLocationPin/> <p> Islamabad,Pakistan </p>
     </div>
     </div>
     </header>
@@ -24,7 +22,7 @@ const navigate = useNavigate()
 
     <span className="flex justify-start items-center gap-2  my-4 w-48 cursor-pointer hover:text-blue-400 transition-colors duration-300 ease-in-out" onClick={()=>navigate("/")}> <FaArrowLeftLong size='20'/> <h1 className='font-bold'>All Jobs Openings</h1></span>
 
-      <div>
+      <div className="flex justify-center items-center">
         <Outlet />
       </div>
     </section>
