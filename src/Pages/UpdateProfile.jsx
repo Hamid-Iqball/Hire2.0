@@ -9,7 +9,7 @@ const navigate = useNavigate()
 
   return (
     <>
-    
+    {/* bg-[#170909] */}
     <header className="flex justify-center items-center p-10 bg-[#170909] text-white">
     <div>
     <h1 className="text-3xl sm:text-4xl text-center font-[300] mb-2">Machine Learning Engineer</h1>
