@@ -1,9 +1,16 @@
 import { Button, Input } from "@material-tailwind/react";
-import { useState } from "react";
+import { useState } from "react"
+import * as pdfjsLib from "pdfjs-dist"
 
 
 function PersonalInformation() {
   const [files, setFiles] = useState([]);
+  const [basicInfo,setBasicInfo] = useState({
+    title:"",
+    firstName:"",
+    lastName:"",
+    email:""
+  })
 
   // Handle file drop
   const handleDrop = (e) => {
@@ -15,10 +22,52 @@ function PersonalInformation() {
   };
 
   // Handle file selection via input
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const uploadedFiles = Array.from(e.target.files);
     setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+
+    const file = uploadedFiles[0];
+    if(file && file.type === "applicationn/pdf"){
+      const pdfData = await extractTextFromPdf(file)
+      populateBasicInfo(pdfData)
+    }
+
   };
+
+
+    const extractTextFromPdf = async (file)=>{
+    const arrayBuffer = await file.arrayBuffer()
+    const pdfDoc = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
+
+      let text = ""
+      for(let i=1; i<=pdfDoc.numPages; i++){
+        const page = await pdfDoc.getPage(i);
+        const content = await page.getTextContent();
+        text +=content.items.map((item)=>item.str).join(" ")
+
+      }
+
+      return text;
+
+    }
+
+
+
+  const populateBasicInfo =(pdfText)=>{
+    //Regex or string matching to extract content from pdf
+    const titleMatch = pdfText.match(/Title:\s*(\w+)/i);
+    const firstNameMatch = pdfText.match(/First Name:\s*(\w+)/i);
+    const lastNameMatch = pdfText.match(/Last Name:\s*(w+)/i);
+    const emailMatch = pdfText.match(/Email: \s*([\w.-]+@[\w.-]+)/i)
+
+
+    setBasicInfo({
+      title:titleMatch?.[1] || "",
+      firstName:firstNameMatch?.[1]||"",
+      lastName:lastNameMatch?.[1] || "",
+      email:emailMatch?.[1]||""
+    })
+  }
 
   return (
     <section className="min-w-full sm:min-w-[70%]  flex flex-col justify-start my-4 items-start p-6">
@@ -68,11 +117,11 @@ function PersonalInformation() {
         <h1 className="font-bold">Basic Info</h1>
         <div className="grid grid-cols-1 sm:grid-cols-[0.2fr,1fr] gap-2">
 
-        <Input label="Title" color="blue" className="bg-white"/>
-        <Input label="first Name" color='blue' className="bg-white"/>
+        <Input label="Title" color="blue" className="bg-white" value={basicInfo.title}/>
+        <Input label="first Name" color='blue' className="bg-white" value={basicInfo.firstName}/>
         </div>
-        <Input label="Last Name" color="blue" className="bg-white"/>
-        <Input label="Email address" color="blue" className="bg-white"/>
+        <Input label="Last Name" color="blue" className="bg-white" value={basicInfo.lastName}/>
+        <Input label="Email address" color="blue" className="bg-white" value={basicInfo.email}/>
         <div className="grid grid-cols-[0.2fr, 1fr]">
         <Input label="Country code" color="blue" className="bg-white"/>
         </div>
@@ -81,7 +130,7 @@ function PersonalInformation() {
 
 
         <div className="mt-2 flex justify-start items-center flex-wrap gap-3 sm:gap-1"> 
-          <Button className="mr-2 bg-white text-black border-black border w-44 ">
+          <Button className="mr-2 bg-white text-black border-black border w-44 " type="reset">
             Cancel
           </Button>
           <Button className="bg-blue-600 text-white" >
