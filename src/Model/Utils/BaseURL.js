@@ -1,1 +1,1 @@
-export const BaseURL = 'dummyurl'
+export const BaseURL = '172.18.0.37/empleado_v3/recruitment/processors/get_data.php?'

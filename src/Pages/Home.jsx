@@ -52,7 +52,7 @@ function Home() {
       <span className="mb-4">
         <h2 className="text-lg font-semibold">Available Vacancies at Veevo Tech Official</h2>
       </span>
-
+{
       <Button
         onClick={handleClick}
         className="flex justify-start items-center gap-2 rounded-xl p-2 sm:min-w-full mb-2 text-blue-gray-900 cursor-pointer bg-white hover:bg-[#57A8FF] hover:text-white active:bg-[#57A8FF] active:text-white duration-300 ease-in-out group"
@@ -61,7 +61,7 @@ function Home() {
           <PiBagSimpleFill size={20} />
         </span>
         <p className="font-[500] text-[14px]">AI/ML R&D Engineer</p>
-      </Button>
+      </Button>}
 
       {/* Repeat similar Button components as needed */}
     </motion.div>
