@@ -12,6 +12,8 @@ function PersonalInformation() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
+
+  //Function for text extraction from pdf
   const extractTextFromPdf = (text) => {
     try {
       // Extract email using regex
@@ -64,9 +66,9 @@ function PersonalInformation() {
       return;
     }
 
+    
     setFiles([file]);
 
-   
     // Create a new FileReader instance
     const reader = new FileReader();
 
@@ -95,7 +97,6 @@ function PersonalInformation() {
     reader.readAsText(file);
   };
 
-  
   // Handle drag and drop
   const handleDragOver = (e) => {
     e.preventDefault();

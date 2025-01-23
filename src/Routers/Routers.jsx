@@ -20,7 +20,6 @@ function Routers() {
         <Route path="/updateProfile" element={<UpdateProfile />}>
         <Route index element={<PersonalInformation/>}/>
         <Route path="personal" element={<PersonalInformation/>}  />
-   
         </Route>
 
         
