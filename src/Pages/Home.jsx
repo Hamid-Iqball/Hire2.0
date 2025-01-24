@@ -1,17 +1,22 @@
 import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiLogIn } from "react-icons/fi";
 import { PiBagSimpleFill } from "react-icons/pi";
 
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
+import { useHomePage } from "../ViewModel/HomePageViewModal/userHomeServie";
 
 function Home() {
   const [isClicked,setIsClicked] = useState(false)
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Determine if the current route is for job details
+  const {allJobs,getAllJobs} = useHomePage()
+    useEffect(function(){
+      console.log('*******')
+      getAllJobs()
+    },[])
+ 
   const isJobDetailsPage = location.pathname.startsWith("/vacancy");
 
   function handleClick(){
@@ -53,15 +58,18 @@ function Home() {
         <h2 className="text-lg font-semibold">Available Vacancies at Veevo Tech Official</h2>
       </span>
 {
+
       <Button
-        onClick={handleClick}
-        className="flex justify-start items-center gap-2 rounded-xl p-2 sm:min-w-full mb-2 text-blue-gray-900 cursor-pointer bg-white hover:bg-[#57A8FF] hover:text-white active:bg-[#57A8FF] active:text-white duration-300 ease-in-out group"
+      onClick={handleClick}
+      className="flex justify-start items-center gap-2 rounded-xl p-2 sm:min-w-full mb-2 text-blue-gray-900 cursor-pointer bg-white hover:bg-[#57A8FF] hover:text-white active:bg-[#57A8FF] active:text-white duration-300 ease-in-out group"
       >
         <span>
           <PiBagSimpleFill size={20} />
         </span>
         <p className="font-[500] text-[14px]">AI/ML R&D Engineer</p>
-      </Button>}
+      </Button> 
+      }
+ 
 
       {/* Repeat similar Button components as needed */}
     </motion.div>
