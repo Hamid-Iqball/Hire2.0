@@ -8,28 +8,36 @@ import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useHomePage } from "../ViewModel/HomePageViewModal/userHomeServie";
 
 function Home() {
-  const [isClicked,setIsClicked] = useState(false)
+  // const [isClicked,setIsClicked] = useState(false)
   const navigate = useNavigate();
   const location = useLocation();
-  const {allJobs,getAllJobs} = useHomePage()
+
+  const {allJobs,getAllJobs,orgDetails} = useHomePage()
     useEffect(function(){
-      console.log('*******')
-      getAllJobs()
+     getAllJobs()
+     console.log('******' ,allJobs)
+     console.log("7777777777",orgDetails)
     },[])
  
   const isJobDetailsPage = location.pathname.startsWith("/vacancy");
 
-  function handleClick(){
-    navigate("/vacancy/ai-ml-rd-engineer");
-    setIsClicked(true)
+  function handleClick(id){
+    navigate(`/vacancy/${id}`);
+    // setIsClicked(true)
   }
   return (
 <>
-    <header className="flex justify-between p-2  ">        
+    <header className="flex justify-between p-2  ">  
+
        <div className="p-2">
-          <span>
-            <img src="/Images/logo.png" alt="Logo" />
+       {  orgDetails.map((orgLogo)=>(
+
+         
+         <span key={orgLogo.id}>
+            <img src={orgLogo.logo} alt="Logo" />
           </span>
+          ))
+       }
         </div>
 
 
@@ -57,19 +65,21 @@ function Home() {
       <span className="mb-4">
         <h2 className="text-lg font-semibold">Available Vacancies at Veevo Tech Official</h2>
       </span>
-{
+      {allJobs.map((job) => (
+  <Button
+    key={job.id}
+    onClick={()=>handleClick(job.id)}
+    className="flex justify-start items-center gap-2 rounded-xl p-2 sm:min-w-full mb-2 text-blue-gray-900 cursor-pointer bg-white hover:bg-[#57A8FF] hover:text-white active:bg-[#57A8FF] active:text-white duration-300 ease-in-out group"
+  >
+    <span>
+      <PiBagSimpleFill size={20} />
+    </span>
+    <p className="font-[500] text-[14px]">{job.title}</p>
+  </Button>
+))}
 
-      <Button
-      onClick={handleClick}
-      className="flex justify-start items-center gap-2 rounded-xl p-2 sm:min-w-full mb-2 text-blue-gray-900 cursor-pointer bg-white hover:bg-[#57A8FF] hover:text-white active:bg-[#57A8FF] active:text-white duration-300 ease-in-out group"
-      >
-        <span>
-          <PiBagSimpleFill size={20} />
-        </span>
-        <p className="font-[500] text-[14px]">AI/ML R&D Engineer</p>
-      </Button> 
-      }
  
+
 
       {/* Repeat similar Button components as needed */}
     </motion.div>
