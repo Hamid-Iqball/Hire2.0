@@ -1,6 +1,7 @@
 
 
 import { Button } from "@material-tailwind/react";
+import React from "react";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { FaCalendar } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -10,100 +11,103 @@ import { LuMapPinHouse } from "react-icons/lu";
 import { MdDateRange, MdOutlinePersonPin } from "react-icons/md";
 import { PiOfficeChairFill } from "react-icons/pi";
 import { TiArrowBack } from "react-icons/ti";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function JobDetails() {
-const { id } = useParams();
+
 const navigate = useNavigate()
+const location = useLocation()
+const {jobDetails} = location.state
+console.log(jobDetails)
   return (
 
-    <div className="bg-white px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-[8px] border-[#606060] xs:px-4  ">
-      <h2 className="text-xl font-semibold mb-4 flex justify-between items-center">{id} <span  onClick={()=>navigate(-1)} className="cursor-pointer"><TiArrowBack color="#57A8FF" size='24px'/></span></h2>
+    <div className="bg-white px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-[8px] border-[#606060] xs:px-4 max-h-fit ">
+      <h2 className="text-xl font-semibold mb-4 flex justify-between items-center">{jobDetails.title} <span  onClick={()=>navigate("/")} className="cursor-pointer"><TiArrowBack color="#57A8FF" size='24px'/></span></h2>
       <div>
 
         {/* Section - 1 */}
         <div className="grid grid-cols-2 gap-x-1 lg:grid-cols-3 gap-y-6 sm:gap-y-10  border-b-2 border-dashed  px-2 md:px-4 py-6 flex-wrap  ">
-
-        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
-            <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
-            <BsGenderAmbiguous size='26px' color="#57A8FF"/>
-            </div>
-            <div className="text-sm">
-                <p>Gender</p>
-                <strong>Both</strong>
-            </div>
+        <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
+            <BsGenderAmbiguous size='24px' color="#57A8FF"/>
+        </div>
+        <div className="col-span-9 text-sm">
+            <p>Gender</p>
+            <strong>{jobDetails.req_gender}</strong>
+        </div>
         </div>
 
-        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
-        <div className="border border-blue-400  rounded-full flex justify-center items-center">
+        <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
         <FaPeopleGroup size='26px' color="#57A8FF"/>
         </div>
-        <div className="text-sm">
+        <div className="text-sm col-span-9">
             <p>Age limit</p>
-            <strong>25 - 30</strong>
+            <strong>{jobDetails.age_from
+            } - {jobDetails.age_upto}</strong>
         </div>
         </div>
 
-        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
-        <div className="border border-blue-400  rounded-full flex justify-center items-center">
+        <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
         <MdOutlinePersonPin size='26px' color="#57A8FF"/>
         </div>
-        <div className="text-sm">
+        <div className="col-span-9 text-sm">
             <p>Job Type</p>
-            <strong>Office job</strong>
+            <strong>{jobDetails.vacancy_type}</strong>
         </div>
         </div>
-        <div className="grid grid-cols-[0.3fr,1fr] gap-3">
-            <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
+        <div className="grid grid-cols-12 gap-3">
+            <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
             <PiOfficeChairFill size='26px' color="#57A8FF"/>
             </div>
-            <div className="text-sm">
+            <div className="col-span-9 text-sm">
                 <p >Total Seats</p>
-                <strong>5</strong>
+                <strong>{jobDetails.total_seats}</strong>
             </div>
         </div>
   
 
-        <div className="grid grid-cols-[0.153fr,1fr] col-span-2 xl:col-span-1 gap-2">
-        <div className="border border-blue-400  rounded-full flex justify-center items-center">
+        <div className="grid grid-cols-12 col-span-2 xl:col-span-1 gap-2">
+        <div className="border border-blue-400 col-span-3 rounded-full flex justify-center items-center self-start p-1.5">
         <MdDateRange size='26px' color="#57A8FF"/>
         </div>
-        <div className="text-sm">
+        <div className="col-span-9 text-sm">
             <p >Deadline Date</p>
-            <strong>Undisclosed</strong>
+        <strong>{jobDetails.end_date}</strong>
         </div>
         </div>
 
 
         <div className="grid grid-cols-[0.3fr,1fr] gap-2">
-        <div className="border border-blue-400  rounded-full flex justify-center items-center">
+        <div className="border border-blue-400  rounded-full flex justify-center items-center self-start p-1.5">
         <FaCalendar size='24px' color="#57A8FF"/>
         </div>
         <div className="text-sm">
             <p>Experience</p>
-            <strong>0 year(s)</strong>
+            <strong>{jobDetails.req_experience} years</strong>
         </div>
         </div>
 
 
         <div className="grid grid-cols-[0.12fr,1fr] col-span-2 gap-2">
-            <div className="border border-blue-400 p-1 rounded-full flex justify-center items-center">
+            <div className="border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
             <LuMapPinHouse size='22px' color="#57A8FF"/>
             </div>
             <div className="text-sm">
                 <p>Location</p>
-                <strong>Peshawar, Islamabad</strong>
+                <strong>{jobDetails.locations.map((el)=>el.city_name).join(',')}</strong>
             </div>
         </div>
 
 
-            <div className="grid grid-cols-[0.13fr,1fr] col-span-2 xl:col-span-1 gap-2">
-            <div className="border border-blue-400  rounded-full flex justify-center items-center">
+            <div className="grid grid-cols-[0.13fr,1fr] col-span-2 xl:col-span-1 gap-2 ">
+            <div className="border border-blue-400  rounded-full flex justify-center items-center self-start p-1.5">
             <GiGraduateCap size='26px' color="#57A8FF"/>
             </div>
             <div className="text-sm">
                 <p className="text-sm">Required Eduaction</p>
-                <strong>Any degree</strong>
+                <strong>{jobDetails.min_qualification}</strong>
             </div>
             </div>
         </div>
@@ -124,17 +128,29 @@ const navigate = useNavigate()
         <GrDocumentText size='26px' color="#57A8FF"/>
         </div>
         <div className="text-sm">
-            <strong>Description</strong>
-            <p>If you are dreaming to be a part of visionary young people, if you are eager to join VT for making lives more technological, more easier with your efforts. 
-            We respect your spirit, come join our journey! <br /> Our internships are 90% leading to permanent jobs.We are offering internships in multiple departments, including both technical & management/marketing.</p>
+         <strong className="mb-1">Description</strong>
+         <p>
+        {jobDetails.description
+            .replace(/<br\s*\/?>/g, '\n') // Replace <br /> or <br> with \n
+            .split('\n') // Split on \n for line breaks
+            .map((line, index) => (
+                <React.Fragment key={index}>
+                    {line.trim()} {/* Trim extra spaces */}
+                    {line.trim() && <br />} {/* Add a line break only if the line is not empty */}
+                </React.Fragment>
+            ))}
+            </p>
         </div>
+
+
+
         </div>
         </div>
 
 
          {/* Last div */}
          <div className=" px-4 py-6 ">
-            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/updateProfile")}>Login to Update</Button>
+            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/updateProfile")}>Login and Apply</Button>
          </div>
       </div>
     </div>
