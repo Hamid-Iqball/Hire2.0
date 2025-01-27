@@ -1,6 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { FiLogIn } from "react-icons/fi";
 import { PiBagSimpleFill } from "react-icons/pi";
 
@@ -12,7 +12,7 @@ function Home() {
   const location = useLocation();
 
   const {allJobs,getAllJobs,orgDetails} = useHomePage()
-
+  console.log(orgDetails)
     useEffect(function(){
      getAllJobs()
     },[])
@@ -57,9 +57,11 @@ function Home() {
       }}
       className="flex flex-col gap-2 px-8 mb-10"
     >
-      <span className="mb-4">
-        <h2 className="text-lg font-semibold">Available Vacancies at Veevo Tech Official</h2>
-      </span>
+  { orgDetails.map((org,i)=>(
+
+    <span className="mb-4" key={i}>
+        <h2 className="text-lg font-semibold">Available Vacancies at {org.org_name}</h2>
+        </span>  ))}
       {allJobs.map((job) => (
         <Button
           key={job.id}
@@ -99,7 +101,7 @@ function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="w-full h-full bg-white shadow-lg rounded-2xl"
+          className="w-full  bg-white shadow-lg rounded-2xl"
         >
           <Outlet />
         </motion.div>

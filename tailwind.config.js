@@ -7,6 +7,16 @@ export default withMT({
     extend: {
       screens:{
         'xs':'475px'
+      },
+      colors:{
+        customBlue:{
+          
+          400:'#00BCFF',
+          500:'#2B7FFF'
+        },
+        customGray:{
+          700:'#364153'
+        }
       }
     },
   },

@@ -4,7 +4,7 @@ import { Button } from "@material-tailwind/react";
 import React from "react";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { FaCalendar } from "react-icons/fa";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { FaLocationDot, FaPeopleGroup } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
 import { GrDocumentText } from "react-icons/gr";
 import { LuMapPinHouse } from "react-icons/lu";
@@ -21,15 +21,15 @@ const {jobDetails} = location.state
 console.log(jobDetails)
   return (
 
-    <div className="bg-white px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-[8px] border-[#606060] xs:px-4 max-h-fit ">
-      <h2 className="text-xl font-semibold mb-4 flex justify-between items-center">{jobDetails.title} <span  onClick={()=>navigate("/")} className="cursor-pointer"><TiArrowBack color="#57A8FF" size='24px'/></span></h2>
+    <div className=" px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-8 border-customGray-700 xs:px-4  ">
+      <h2 className="text-xl font-semibold mb-4 flex justify-between items-center">{jobDetails.title} <span  onClick={()=>navigate("/")} className="cursor-pointer"><TiArrowBack className="text-customBlue-400" size='24px'/></span></h2>
       <div>
 
         {/* Section - 1 */}
         <div className="grid grid-cols-2 gap-x-1 lg:grid-cols-3 gap-y-6 sm:gap-y-10  border-b-2 border-dashed  px-2 md:px-4 py-6 flex-wrap  ">
         <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
-            <BsGenderAmbiguous size='24px' color="#57A8FF"/>
+        <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+            <BsGenderAmbiguous size='24px' className="text-customBlue-400"/>
         </div>
         <div className="col-span-9 text-sm">
             <p>Gender</p>
@@ -38,8 +38,8 @@ console.log(jobDetails)
         </div>
 
         <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
-        <FaPeopleGroup size='26px' color="#57A8FF"/>
+        <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+        <FaPeopleGroup size='26px' className="text-customBlue-400"/>
         </div>
         <div className="text-sm col-span-9">
             <p>Age limit</p>
@@ -49,8 +49,8 @@ console.log(jobDetails)
         </div>
 
         <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
-        <MdOutlinePersonPin size='26px' color="#57A8FF"/>
+        <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+        <MdOutlinePersonPin size='26px' className="text-customBlue-400"/>
         </div>
         <div className="col-span-9 text-sm">
             <p>Job Type</p>
@@ -58,8 +58,8 @@ console.log(jobDetails)
         </div>
         </div>
         <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-3 border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
-            <PiOfficeChairFill size='26px' color="#57A8FF"/>
+            <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+            <PiOfficeChairFill size='24px' className="text-customBlue-400"/>
             </div>
             <div className="col-span-9 text-sm">
                 <p >Total Seats</p>
@@ -68,9 +68,9 @@ console.log(jobDetails)
         </div>
   
 
-        <div className="grid grid-cols-12 col-span-2 xl:col-span-1 gap-2">
-        <div className="border border-blue-400 col-span-3 rounded-full flex justify-center items-center self-start p-1.5">
-        <MdDateRange size='26px' color="#57A8FF"/>
+        <div className="grid grid-cols-12 xl:col-span-1 gap-2">
+        <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+        <MdDateRange size='24px' className="text-customBlue-400"/>
         </div>
         <div className="col-span-9 text-sm">
             <p >Deadline Date</p>
@@ -79,37 +79,38 @@ console.log(jobDetails)
         </div>
 
 
-        <div className="grid grid-cols-[0.3fr,1fr] gap-2">
-        <div className="border border-blue-400  rounded-full flex justify-center items-center self-start p-1.5">
-        <FaCalendar size='24px' color="#57A8FF"/>
+        <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+        <FaCalendar size='24px' className="text-customBlue-400"/>
         </div>
-        <div className="text-sm">
+        <div className="col-span-9 text-sm">
             <p>Experience</p>
             <strong>{jobDetails.req_experience} years</strong>
         </div>
         </div>
 
 
-        <div className="grid grid-cols-[0.12fr,1fr] col-span-2 gap-2">
-            <div className="border border-blue-400 rounded-full flex justify-center items-center self-start p-1.5">
-            <LuMapPinHouse size='22px' color="#57A8FF"/>
+        <div className="grid grid-cols-12 col-span-2 gap-3">
+            <div className="col-span-2 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-2">
+            <FaLocationDot size='22px' className="text-customBlue-400"/>
             </div>
-            <div className="text-sm">
+            <div className="col-span-10 text-sm">
                 <p>Location</p>
-                <strong>{jobDetails.locations.map((el)=>el.city_name).join(',')}</strong>
+                <strong className="max-w-">{jobDetails.locations.map((el)=>el.city_name).join(',')}</strong>
             </div>
         </div>
 
 
-            <div className="grid grid-cols-[0.13fr,1fr] col-span-2 xl:col-span-1 gap-2 ">
-            <div className="border border-blue-400  rounded-full flex justify-center items-center self-start p-1.5">
-            <GiGraduateCap size='26px' color="#57A8FF"/>
+                <div className="grid grid-cols-12 gap-3">
+            <div className="col-span-3 border border-customBlue-400 rounded-full flex justify-center items-center self-start p-1.5">
+                <GiGraduateCap size="24px" className="text-customBlue-400" />
             </div>
-            <div className="text-sm">
-                <p className="text-sm">Required Eduaction</p>
+            <div className="col-span-9 text-sm">
+                <p className="text-sm">Required Education</p>
                 <strong>{jobDetails.min_qualification}</strong>
             </div>
-            </div>
+        </div>
+
         </div>
 
    
