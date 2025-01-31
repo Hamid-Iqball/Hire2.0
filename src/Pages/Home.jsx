@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect} from "react";
 import { FiLogIn } from "react-icons/fi";
 import { PiBagSimpleFill } from "react-icons/pi";
-
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useHomePage } from "../ViewModel/HomePageViewModal/userHomeServie";
 
@@ -96,7 +95,7 @@ function Home() {
         </div>
       </>
     ) : (
-      <div className="w-full h-full flex justify-center items-center mt-8 mb-10 px-8">
+      <div className="w-full h-full flex justify-start items-start mt-8 mb-10 px-8">
         {/* Render Job Details */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
