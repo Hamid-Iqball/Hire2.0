@@ -7,7 +7,6 @@ import { FaCalendar } from "react-icons/fa";
 import { FaLocationDot, FaPeopleGroup } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
 import { GrDocumentText } from "react-icons/gr";
-import { LuMapPinHouse } from "react-icons/lu";
 import { MdDateRange, MdOutlinePersonPin } from "react-icons/md";
 import { PiOfficeChairFill } from "react-icons/pi";
 import { TiArrowBack } from "react-icons/ti";

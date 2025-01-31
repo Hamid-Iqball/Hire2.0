@@ -130,45 +130,12 @@ function PersonalInformation() {
 
   return (
     <section className="min-w-full sm:min-w-[70%] flex flex-col justify-start my-4 items-start p-6">
-      <h1 className="font-bold">Autofill Application</h1>
-      <p>Upload your resume/CV in seconds with the autofill option.</p>
+    
       
       <form className="w-full flex flex-col gap-4">
-        <div 
-          className="mt-4 min-w-full p-6 py-14 border border-dashed border-gray-700 rounded-lg bg-white text-center text-gray-500"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          <label
-            htmlFor="file-upload"
-            className="inline-block text-blue-500 rounded cursor-pointer font-semibold"
-          >
-            Upload your resume{" "}
-            <span className="text-black font-normal">
-              or Drag and drop it here
-            </span>
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            onChange={handleFileChange}
-            accept="application/pdf"
-            className="hidden"
-            disabled={files.length>0}
-          />
-        </div>
 
-        {error && (
-          <div className="text-red-500 mt-2 p-2 bg-red-50 rounded">
-            {error}
-          </div>
-        )}
 
-        {isProcessing && (
-          <div className="text-blue-500 mt-2 p-2 bg-blue-50 rounded">
-            Processing PDF... Please wait.
-          </div>
-        )}
+
 
         {files.length > 0 && (
           <div className="mt-4 w-full bg-white p-4 shadow rounded-lg">
