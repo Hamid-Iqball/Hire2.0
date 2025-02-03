@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router";
 import Home from "../Pages/Home";
 import JobDetails from "../Pages/JobDetails";
-import UpdateProfile from "../Pages/UpdateProfile";
+
 import AppLayout from "../Components/AppLayout";
 import PersonalInformation from "../Pages/PersonalInformation";
+import ApplyForm from "../Pages/ApplyForm";
 
 
 
@@ -17,7 +18,7 @@ function Routers() {
         <Route path="vacancy/:id" element={<JobDetails />} />
        </Route>
      
-        <Route path="/updateProfile" element={<UpdateProfile />}>
+        <Route path="/applyform" element={<ApplyForm/>}>
         <Route index element={<PersonalInformation/>}/>
         <Route path="personal" element={<PersonalInformation/>}  />
         </Route>

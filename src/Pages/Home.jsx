@@ -35,7 +35,7 @@ function Home() {
        }
         </div>
 
-        <div className="p-2 flex justify-between items-center gap-6">
+        <div className="p-2 flex justify-between items-start gap-6">
             {/* <span className=" border border-gray-800 rounded-full"><img src="/Images/hamid.jfif" alt="" className="w-12 h-12 object-cover rounded-full" /> </span> */}
             <Button  className="p-2 bg-[#57A8FF] flex gap-2 "> <span><FiLogIn size='16px'/></span>login</Button>
           </div>

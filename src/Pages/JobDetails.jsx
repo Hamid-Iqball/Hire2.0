@@ -150,7 +150,7 @@ console.log(jobDetails)
 
          {/* Last div */}
          <div className=" px-4 py-6 ">
-            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/updateProfile")}>Login and Apply</Button>
+            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/applyForm")}>Login and Apply</Button>
          </div>
       </div>
     </div>

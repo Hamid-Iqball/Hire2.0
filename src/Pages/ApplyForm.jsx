@@ -3,7 +3,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdLocationPin } from "react-icons/md";
 import {  Outlet, useNavigate } from "react-router";
 
-function UpdateProfile() {
+function ApplyForm() {
 
 const navigate = useNavigate()
 
@@ -30,4 +30,4 @@ const navigate = useNavigate()
   );
 }
 
-export default UpdateProfile;
+export default ApplyForm;
