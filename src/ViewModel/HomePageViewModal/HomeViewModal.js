@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import HomepageApi from "../../Model/Home/Home";
 
 const homeViewModal = (set, get) => ({
@@ -10,13 +11,13 @@ const homeViewModal = (set, get) => ({
       set({ isLoading: true }); 
       try {
         const apiData = {
-            org_id : 10381947
+            org_id : 15
         }
       
 
         const response = await HomepageApi.getAllJobs(apiData);
         const allData = await response.data.DB_DATA
-        console.log(response)
+        // console.log(response)
         if(response.status===200 ){
             set({allJobs:allData.data||[],
              orgDetails:allData.org_detail||[]

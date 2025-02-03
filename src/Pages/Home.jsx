@@ -11,7 +11,7 @@ function Home() {
   const location = useLocation();
 
   const {allJobs,getAllJobs,orgDetails} = useHomePage()
-  console.log(orgDetails)
+  // console.log(orgDetails)
     useEffect(function(){
      getAllJobs()
     },[])

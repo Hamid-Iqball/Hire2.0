@@ -17,7 +17,16 @@ function JobDetails() {
 const navigate = useNavigate()
 const location = useLocation()
 const {jobDetails} = location.state
-console.log(jobDetails)
+
+const handleApply = ()=>{
+navigate("/applyform" , {
+    state:{
+        jobId:jobDetails.id,
+        jobTitle:jobDetails.title,
+        location:jobDetails.locations.map((el)=>el.city_name).join(',') || 'Location not specified'
+    }
+})
+}
   return (
 
     <div className=" px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-8 border-customGray-700 xs:px-4  ">
@@ -150,7 +159,7 @@ console.log(jobDetails)
 
          {/* Last div */}
          <div className=" px-4 py-6 ">
-            <Button className="bg-[#57A8FF]" onClick={()=>navigate("/applyForm")}>Login and Apply</Button>
+            <Button className="bg-[#57A8FF]" onClick={handleApply}>Apply</Button>
          </div>
       </div>
     </div>
