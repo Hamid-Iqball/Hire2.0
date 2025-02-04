@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import Home from "../Pages/Home";
 import JobDetails from "../Pages/JobDetails";
 
-import AppLayout from "../Components/AppLayout";
+import AppLayout from "../Components/AppLayout"
 
 import ApplyForm from "../Pages/ApplyForm";
 
