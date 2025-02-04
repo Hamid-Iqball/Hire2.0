@@ -1,10 +1,11 @@
-import { Input, Option, Select } from "@material-tailwind/react";
+import { Checkbox, Input, Option, Radio, Select, Textarea } from "@material-tailwind/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdLocationPin } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect, useState } from "react";
+import { div } from "motion/react-client";
 
 function ApplyForm() {
   const [fileName, setFileName] = useState("");
@@ -30,8 +31,9 @@ function ApplyForm() {
     }
   };
 
-  // Check if vacanceyQuestions is available and contains locations
+  // Check if vacancyQuestions is available and contains locations
   const locations = vacanceyQuestions?.locations || [];
+  const questions = vacanceyQuestions?.questionnaire || [];
 
   const optionCountries = allStates.map((country) => ({
     value: country.id,
@@ -83,7 +85,7 @@ function ApplyForm() {
 
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Questionnaire</h1>
-            <p>Select Where you want to Apply</p>
+            <p>Select a location where you want to Apply</p>
             {locations.length > 0 ? (
               <Select label="Select Location" color="blue" className="bg-white text-gray-700">
                 {locations.map((el) => (
@@ -95,6 +97,78 @@ function ApplyForm() {
             ) : (
               <p className="text-red-500">No locations available</p>
             )}
+
+            <p>Please fill the questionnaire below</p>
+            {questions.map((question,index) => {
+              const { id,  question: questionText, question_type, options } = question;
+              switch (question_type) {
+                case "Input Type":
+                  return (
+                    <div key={id} className="mb-2">
+                      <p>{`${index+1 }. ${questionText}`}</p>
+                      <Input color="blue" label="Answer"  className="bg-white text-gray-700"/>
+                    </div>
+                  );
+                case "Text Area":
+                  return (
+                    <div key={id} className="mb-2">
+                    <p>{`${index+1 }. ${questionText}`}</p>
+                      <Textarea color="blue" label="Answer" className="bg-white text-gray-700 border-2" />
+                    </div>
+                  );
+                case "Checkboxes":
+                  return (
+                    <div key={id} className="mb-2">
+                      <p>{`${index+1 }. ${questionText}`}</p>
+                      {options.map((option) => (
+                        <div key={option.id} className="flex items-center gap-2">
+                          <Checkbox
+                            type="checkbox"
+                            id={option.id}
+                            name={option.id}
+                            value={option.question_idid}
+                            
+                            color="blue"
+                          />
+                          <label htmlFor={option.id}>{option.option_text}</label>
+                        </div>
+                      ))}
+                    </div>
+                  );
+
+                  case "Radio Buttons":
+                    return (
+                      <div key={id} className="mb-2">
+                       <p>{`${index+1 }. ${questionText}`}</p>
+                        {options.map((option) => (
+                          <div key={option.id} className="flex items-center gap-2">
+                            <Radio id={option.id} name={id} value={option.id} color="blue" />
+                            <label htmlFor={option.id}>{option.option_text}</label>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  
+
+                    case "Dropdown List":
+                      return(
+                        <div key={id} className="mb-2">
+                         <p >{`${index+1 }. ${questionText}`}</p>
+                          <Select color="blue" label="Location" className="bg-white text-gray-700 mt-1" >
+                        {options.map((option)=>(
+                          <Option key={option.id} value={option.option_text} >
+                              {option.option_text}
+                          </Option>
+
+                        ))}
+
+                          </Select>
+                           </div>
+                      )
+                default:
+                  return null;
+              }
+            })}
           </div>
 
           <div className="place-self-start">
@@ -120,9 +194,7 @@ function ApplyForm() {
 
               <div className="mt-2">
                 {fileName ? (
-                  <p className="font-semibold text-gray-700">
-                    Selected File: {fileName}
-                  </p>
+                  <p className="font-semibold text-gray-700">Selected File: {fileName}</p>
                 ) : (
                   <p className="font-semibold text-gray-500">No file selected</p>
                 )}
