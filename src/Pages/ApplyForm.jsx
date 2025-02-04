@@ -1,24 +1,24 @@
-import { Checkbox, Input, Option, Radio, Select, Textarea } from "@material-tailwind/react";
+import { Button, Checkbox, Input, Option, Radio, Select, Textarea } from "@material-tailwind/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdLocationPin } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect, useState } from "react";
-import { div } from "motion/react-client";
+
 
 function ApplyForm() {
   const [fileName, setFileName] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { jobTitle, location: JobLocation } = location.state || {};
+  const {jobId, jobTitle, location: JobLocation } = location.state || {};
 
   const { getAllStates, allStates, isLoading, getVacancey, vacanceyQuestions } = useApplication();
 
   useEffect(() => {
     getAllStates();
-    getVacancey();
+    getVacancey(jobId);
   }, [getAllStates, getVacancey]);
 
   // Handle file input change
@@ -40,7 +40,7 @@ function ApplyForm() {
     label: country.name,
   }));
 
-  // Handle country selection
+  // // Handle country selection
   const handleCountryChange = (selected) => {
     setSelectedCountry(selected);
   };
@@ -85,8 +85,11 @@ function ApplyForm() {
 
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Questionnaire</h1>
-            <p>Select a location where you want to Apply</p>
+            
             {locations.length > 0 ? (
+
+              <>
+              <p>Select a location where you want to Apply</p>
               <Select label="Select Location" color="blue" className="bg-white text-gray-700">
                 {locations.map((el) => (
                   <Option key={el.id} value={el.city_name}>
@@ -94,8 +97,9 @@ function ApplyForm() {
                   </Option>
                 ))}
               </Select>
+                </>
             ) : (
-              <p className="text-red-500">No locations available</p>
+              <></>
             )}
 
             <p>Please fill the questionnaire below</p>
@@ -201,6 +205,14 @@ function ApplyForm() {
               </div>
             </div>
           </div>
+          <div className="flex justify-start items-center gap-3 mt-3 place-self-start">
+                <Button type= "reset"
+                className="bg-white text-customBlue-700 p-4 px-8">
+                  canel
+                </Button>
+                <Button type='submit' className="bg-customBlue-400 text p-4 px-12"> Submit Application </Button>
+          </div>
+
         </form>
       </section>
     </>

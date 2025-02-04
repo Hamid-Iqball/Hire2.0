@@ -73,12 +73,12 @@ const applicationViewModel = (set, get) => ({
 
   //3 Vacancey
  // 3. Vacancy
-getVacancey: async () => {
+getVacancey: async (jobId) => {
   set((state) => ({ ...state, isLoadingVacancey: true })); 
 
   try {
     const apiData = {
-      id: 444,
+      id: jobId,
       user_id: 15192,
     };
 
