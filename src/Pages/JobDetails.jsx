@@ -23,7 +23,9 @@ navigate("/applyform" , {
     state:{
         jobId:jobDetails.id,
         jobTitle:jobDetails.title,
-        location:jobDetails.locations.map((el)=>el.city_name).join(',') || 'Location not specified'
+        location:jobDetails.locations.map((el)=>el.city_name).join(',') || 'Location not specified',
+        
+    
     }
 })
 }

@@ -8,6 +8,7 @@ export const useApplication = ()=>{
   const getVacancey = useStore((state)=>state.getVacancey)
   const vacanceyQuestions = useStore((state)=>state.vacanceyQuestions)
   const sendApplication = useStore((state)=>state.sendApplication)
+  const isSubmitting = useStore((state)=>state.isSubmitting)
 
 
 
@@ -45,18 +46,35 @@ export const useApplication = ()=>{
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
-
-    setFormData(prev => ({
-    ...prev,
-    answers: {
-      ...prev.answers,
-      [questionId]: {
-        questionId,
-        value,
-        type
+      if (type === 'Checkboxes') {
+        setFormData(prev => ({
+          ...prev,
+          answers: {
+            ...prev.answers,
+            [questionId]: {
+              type,
+              value: prev.answers[questionId]?.value 
+                ? Array.isArray(prev.answers[questionId].value)
+                  ? prev.answers[questionId].value.includes(value)
+                    ? prev.answers[questionId].value.filter(v => v !== value)
+                    : [...prev.answers[questionId].value, value]
+                  : [value]
+                : [value]
+            }
+          }
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          answers: {
+            ...prev.answers,
+            [questionId]: {
+              type,
+              value: value
+            }
+          }
+        }));
       }
-    }
-    }));
     };
 
 
@@ -79,6 +97,6 @@ export const useApplication = ()=>{
     };
 
 
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange }
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting }
 }
 

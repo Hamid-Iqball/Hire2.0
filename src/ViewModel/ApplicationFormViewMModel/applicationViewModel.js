@@ -14,7 +14,6 @@ const applicationViewModel = (set, get) => ({
 //2
 
   getAllStates: async () => {
-  
     set({ isLoadingStates: true });
     try {
       const response = await ApplicationFormApi.getAllStates();
@@ -66,70 +65,68 @@ const applicationViewModel = (set, get) => ({
   },
 
 
+//3
+  getVacancey: async (jobId) => {
+    set((state) => ({ ...state, isLoadingVacancey: true })); 
 
-getVacancey: async (jobId) => {
-  set((state) => ({ ...state, isLoadingVacancey: true })); 
+    try {
+      const apiData = {
+        id: jobId,
+        user_id: 15192,
+      };
+
+      const response = await ApplicationFormApi.getVacanceyQuestioner(apiData);
+
+      if (!response || response.status !== 200) {
+        throw new Error(`API responded with status ${response?.status}`);
+      }
+
+      const data = response.data;
+      // console.log("Vacancy Data:", data); 
+
+      if (data.STATUS === "SUCCESSFUL") {
+        // console.log("Updating State with:", data.DB_DATA); 
+
+        set((state) => ({ ...state, vacanceyQuestions: data.DB_DATA })); 
+      } else {
+        throw new Error(data.Error || "Unknown API Error");
+      }
+    } catch (error) {
+      console.error("Error fetching vacancy questions:", error.message || error);
+    } finally {
+      set((state) => ({ ...state, isLoadingVacancey: false }));
+      
+    }
+  },
+
+
+  sendApplication:async(payload)=>{
+  set((state)=>({...state, isSubmitting:true}))
 
   try {
-    const apiData = {
-      id: jobId,
-      user_id: 15192,
-    };
-
-    const response = await ApplicationFormApi.getVacanceyQuestioner(apiData);
-
+    const response = await ApplicationFormApi.applyVacancey(payload)
     if (!response || response.status !== 200) {
       throw new Error(`API responded with status ${response?.status}`);
     }
 
-    const data = response.data;
-    // console.log("Vacancy Data:", data); 
+    console.log(response)
 
-    if (data.STATUS === "SUCCESSFUL") {
-      // console.log("Updating State with:", data.DB_DATA); 
+    const data = response.data
 
-      set((state) => ({ ...state, vacanceyQuestions: data.DB_DATA })); 
-    } else {
-      throw new Error(data.Error || "Unknown API Error");
+    if(data.STATUS==='SUCCESSFUL'){
+      return {success:true, data:data.DB_DATA}
+    }else{
+      throw new Error(data.Error || "Unkown API ERROR")
     }
-  } catch (error) {
-    console.error("Error fetching vacancy questions:", error.message || error);
-  } finally {
-    set((state) => ({ ...state, isLoadingVacancey: false }));
     
-  }
-},
-
-
-sendApplication:async(payload)=>{
-set((state)=>({...state, isSubmitting:true}))
-
-try {
-  const response = await ApplicationFormApi.applyVacancey(payload)
-  if (!response || response.status !== 200) {
-    throw new Error(`API responded with status ${response?.status}`);
+  }  catch (error) {
+    console.error("Error submitting application:", error.message || error);
+    return { success: false, error: error.message || "Failed to submit application" };
+  } finally {
+    set((state) => ({ ...state, isSubmitting: false }));
   }
 
-  console.log(response)
-
-  const data = response.data
-
-  if(data.STATUS==='SUCCESSFUL'){
-    return {success:true, data:data.DB_DATA}
-  }else{
-    throw new Error(data.Error || "Unkown API ERROR")
   }
-  
-}  catch (error) {
-  console.error("Error submitting application:", error.message || error);
-  return { success: false, error: error.message || "Failed to submit application" };
-} finally {
-  set((state) => ({ ...state, isSubmitting: false }));
-}
-
-
-
-}
 
 
 
