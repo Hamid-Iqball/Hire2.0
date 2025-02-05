@@ -5,18 +5,18 @@ import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
-import { useSubmitApplication } from "../hooks/submitApplication";
+
 
 
 function ApplyForm() {
 
-  const {formData, handleCountryChange , handleInputChange, handleFileChange, handleAnswerChange, fileName} = useSubmitApplication()
+ 
  
   const location = useLocation();
   const navigate = useNavigate();
   const {jobId, jobTitle, location: JobLocation } = location.state || {};
 
-  const { getAllStates, allStates, isLoading, getVacancey, vacanceyQuestions,  } = useApplication();
+  const { getAllStates, allStates, isLoading, getVacancey, vacanceyQuestions,formData, handleCountryChange , handleInputChange, handleFileChange, handleAnswerChange, fileName  } = useApplication();
 
   useEffect(() => {
     getAllStates();
