@@ -15,19 +15,13 @@ const applicationViewModel = (set, get) => ({
   getAllStates: async () => {
   
     set({ isLoadingStates: true });
-
     try {
       const response = await ApplicationFormApi.getAllStates();
-
-    
-      if (!response || response.status !== 200) {
+     if (!response || response.status !== 200) {
         throw new Error(`API responded with status ${response?.status}`);
       }
-
       const data = response.data; 
-    
-
-    
+  
       if (data.STATUS === "SUCCESSFUL") {
         set({ allStates: data.DB_DATA || [] });
       } else {
@@ -71,8 +65,7 @@ const applicationViewModel = (set, get) => ({
   },
 
 
-  //3 Vacancey
- // 3. Vacancy
+
 getVacancey: async (jobId) => {
   set((state) => ({ ...state, isLoadingVacancey: true })); 
 

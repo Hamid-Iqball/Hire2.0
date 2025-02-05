@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import { useState } from "react";
 import Select from "react-select";
 
@@ -38,20 +39,18 @@ const customStyles = {
   }),
 };
 
-function FloatingLabelSelect({ label, options, onChange }) {
+function FloatingLabelSelect({ label, options, onChange, value, isDisabled }) {
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selected) => {
-    setSelectedOption(selected); // Update local state
-    onChange?.(selected); // Call parent onChange if provided
+    onChange?.(selected);
   };
 
   return (
     <div className="relative min-h-[50px]">
       <label
         className={`absolute left-2 text-sm transition-all duration-200 ${
-          isFocused || selectedOption
+          isFocused || value
             ? "-top-2 text-blue-500 text-xs mx-1 z-10 bg-white px-1"
             : "top-[9px] text-sm z-10 left-3 text-[#698192]"
         } ${!isFocused ? "text-[#979ea1]" : "text-blue-500"}`}
@@ -61,12 +60,13 @@ function FloatingLabelSelect({ label, options, onChange }) {
       <Select
         options={options}
         styles={customStyles}
-        value={selectedOption}
+        value={value}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onChange={handleChange} // Handle selection changes
-        isClearable // ✅ Allows clearing the selection
-        menuPortalTarget={document.body} // ✅ Prevents overflow issues
+        onChange={handleChange}
+        isDisabled={isDisabled}
+        isClearable
+        menuPortalTarget={document.body}
       />
     </div>
   );

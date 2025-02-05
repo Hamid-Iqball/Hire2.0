@@ -32,6 +32,14 @@ getVacanceyQuestioner:function(data){
             ...data
         }
     })
+},
+
+applyVacancey:function(){
+return axiosInstance.request({
+    method:'POST',
+    url:'/set_data.php'
+
+})
 }
 }
 
