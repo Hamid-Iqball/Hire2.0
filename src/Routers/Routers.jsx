@@ -5,6 +5,7 @@ import JobDetails from "../Pages/JobDetails";
 import AppLayout from "../Components/AppLayout"
 
 import ApplyForm from "../Pages/ApplyForm";
+import Success from "../Pages/Success";
 
 
 
@@ -19,9 +20,9 @@ function Routers() {
        </Route>
      
         <Route path="/applyform" element={<ApplyForm/>}>
-      
    
         </Route>
+      <Route path="/success" element={<Success/>} />
 
         
       </Route>

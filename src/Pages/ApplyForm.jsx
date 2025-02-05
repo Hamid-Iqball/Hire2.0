@@ -4,28 +4,19 @@ import { MdLocationPin } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSubmitApplication } from "../hooks/submitApplication";
 
 
 function ApplyForm() {
-  const [fileName, setFileName] = useState("");
-  // const [selectedCountry, setSelectedCountry] = useState(null);
-  const [formData, setFormData] = useState({
-    title: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    country: null,
-    selectedLocation: "",
-    answers: {},
-    resume: null
 
-  })
+  const {formData, handleCountryChange , handleInputChange, handleFileChange, handleAnswerChange, fileName} = useSubmitApplication()
+ 
   const location = useLocation();
   const navigate = useNavigate();
   const {jobId, jobTitle, location: JobLocation } = location.state || {};
 
-  const { getAllStates, allStates, isLoading, getVacancey, vacanceyQuestions } = useApplication();
+  const { getAllStates, allStates, isLoading, getVacancey, vacanceyQuestions,  } = useApplication();
 
   useEffect(() => {
     getAllStates();
@@ -34,70 +25,22 @@ function ApplyForm() {
 
 
 
+
   // Check if vacancyQuestions is available and contains locations
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
 
-  console.log('questions', questions)
+  // console.log('questions', questions)
 
   const optionCountries = allStates.map((country) => ({
     value: country.id,
     label: country.name,
   }));
 
-  // // Handle country selection
-  const handleCountryChange = (selected) => {
-    setFormData(prev => ({
-      ...prev,
-      country: selected // Store the entire selected option
-    }));
-  };
-
-  //Basic Info inputs
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  //Questionniers inputs
-  const handleAnswerChange = (questionId, value, type) => {
-    setFormData(prev => ({
-      ...prev,
-      answers: {
-        ...prev.answers,
-        [questionId]: {
-          questionId,
-          value,
-          type
-        }
-      }
-    }));
-  };
-
-
-  //Resume File input
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFileName(file.name);
-      setFormData(prev => ({
-        ...prev,
-        resume: file
-      }));
-    } else {
-      setFileName("");
-      setFormData(prev => ({
-        ...prev,
-        resume: null
-      }));
-    }
-  };
-  const handleSubmit =()=>{
-
-  }
+  
+const handleSubmit = (e)=>{
+e.preventDefault()
+}
 
   return (
     <>
@@ -170,6 +113,7 @@ function ApplyForm() {
             <p>Please fill the questionnaire below</p>
             {questions.map((question,index) => {
               const { id,  question: questionText, question_type, options } = question;
+              // console.log('Question idddddd',id)
               switch (question_type) {
                 case "Input Type":
                   return (
