@@ -12,8 +12,8 @@ export const useApplication = ()=>{
 
 
 
-    const [fileName, setFileName] = useState("");
-    const [formData, setFormData] = useState({
+  const [fileName, setFileName] = useState("");
+  const [formData, setFormData] = useState({
       title: "",
       firstName: "",
       lastName: "",
@@ -25,24 +25,24 @@ export const useApplication = ()=>{
 
     })
 
-    // // Handle country selection
-    const handleCountryChange = (selected) => {
-    console.log(selected)
-    setFormData(prev => ({
-    ...prev,
-    country: selected // Store the entire selected option
-    }));
-    };
+      // // Handle country selection
+      const handleCountryChange = (selected) => {
+      console.log(selected)
+      setFormData(prev => ({
+      ...prev,
+      country: selected // Store the entire selected option
+      }));
+      };
 
-    //Basic Info inputs
-    const handleInputChange = (e) => {
-    const { name, value } = e.target;
+      //Basic Info inputs
+      const handleInputChange = (e) => {
+      const { name, value } = e.target;
 
-    setFormData(prev => ({
-    ...prev,
-    [name]: value
-    }));
-    };
+      setFormData(prev => ({
+      ...prev,
+      [name]: value
+      }));
+      };
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
@@ -58,9 +58,9 @@ export const useApplication = ()=>{
               value:
                 type === 'Checkboxes'
                   ? prevValue.includes(value)
-                    ? prevValue.filter(v => v !== value) // Remove if already selected
-                    : [...prevValue, value] // Add if not selected
-                  : value // For other input types, store as a single value
+                    ? prevValue.filter(v => v !== value)
+                    : [...prevValue, value] 
+                  : value 
             }
           }
         };
@@ -69,22 +69,22 @@ export const useApplication = ()=>{
     
 
 
-    //Resume File input
-    const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-    setFileName(file.name);
-    setFormData(prev => ({
-      ...prev,
-      resume: file
-    }));
-    } else {
-    setFileName("");
-    setFormData(prev => ({
-      ...prev,
-      resume: null
-    }));
-    }
+  //Resume File input
+  const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+      setFileName(file.name);
+      setFormData(prev => ({
+        ...prev,
+        resume: file
+      }));
+      } else {
+      setFileName("");
+      setFormData(prev => ({
+        ...prev,
+        resume: null
+      }));
+      }
     };
 
 

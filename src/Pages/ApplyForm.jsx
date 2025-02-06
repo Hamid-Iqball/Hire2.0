@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 function ApplyForm() {
   
@@ -46,12 +47,12 @@ function ApplyForm() {
     e.preventDefault();
 
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.country) {
-      alert("Please fill out all required fields.");
+      toast.error("Please fill out all required fields.");
       return;
     }
 
     if (!fileName) {
-      alert("Please upload your resume.");
+     toast.error("Please upload your resume.");
       return;
     }
 
@@ -71,10 +72,10 @@ function ApplyForm() {
 
     try {
       await sendApplication(applicationData);
-      navigate("/success");
+      toast.success("your application is submitted successfully")
     } catch (error) {
       console.error("Failed to submit application:", error);
-      alert("Failed to submit application. Please try again.");
+      toast.error("Failed to submit application. Please try again.");
     }
   };
 
@@ -190,6 +191,7 @@ function ApplyForm() {
                     </div>
                   );
                 case "Dropdown List":
+                  // Here in the dropDown list i am passing value instead of "e" in onChange handler this is because of the Material tailwind css and some other UI libraries in custom dropdown does not have "e".
                   return (
                     <div key={questionId} className="mb-2">
                       <p>{`${index + 1}. ${questionText}`}</p>
@@ -199,7 +201,7 @@ function ApplyForm() {
                             {option.option_text}
                           </Option>
                         ))}
-                      </Select>
+                      </Select> 
                     </div>
                   );
                 default:
