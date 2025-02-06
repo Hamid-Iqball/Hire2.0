@@ -168,7 +168,7 @@ function ApplyForm() {
                             type="checkbox"
                             id={option.id}
                             name={option.id}
-                            value={option.question_id}
+                            value={option.id}
                             onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
                             color="blue"
                           />
@@ -193,9 +193,9 @@ function ApplyForm() {
                   return (
                     <div key={questionId} className="mb-2">
                       <p>{`${index + 1}. ${questionText}`}</p>
-                      <Select color="blue" value={questionId} label="Location" onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} className="bg-white text-gray-700 mt-1">
+                      <Select color="blue" value={formData.answers[questionId]?.value || ""} label="Location" onChange={(value) => handleAnswerChange(questionId, value, question_type)} className="bg-white text-gray-700 mt-1">
                         {options.map((option) => (
-                          <Option key={option.id} value={option.option_text}>
+                          <Option key={option.id} value={option.id}>
                             {option.option_text}
                           </Option>
                         ))}

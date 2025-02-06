@@ -46,36 +46,27 @@ export const useApplication = ()=>{
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
-      if (type === 'Checkboxes') {
-        setFormData(prev => ({
+      setFormData(prev => {
+        const prevValue = prev.answers[questionId]?.value || [];
+    
+        return {
           ...prev,
           answers: {
             ...prev.answers,
             [questionId]: {
               type,
-              value: prev.answers[questionId]?.value 
-                ? Array.isArray(prev.answers[questionId].value)
-                  ? prev.answers[questionId].value.includes(value)
-                    ? prev.answers[questionId].value.filter(v => v !== value)
-                    : [...prev.answers[questionId].value, value]
-                  : [value]
-                : [value]
+              value:
+                type === 'Checkboxes'
+                  ? prevValue.includes(value)
+                    ? prevValue.filter(v => v !== value) // Remove if already selected
+                    : [...prevValue, value] // Add if not selected
+                  : value // For other input types, store as a single value
             }
           }
-        }));
-      } else {
-        setFormData(prev => ({
-          ...prev,
-          answers: {
-            ...prev.answers,
-            [questionId]: {
-              type,
-              value: value
-            }
-          }
-        }));
-      }
+        };
+      });
     };
+    
 
 
     //Resume File input
