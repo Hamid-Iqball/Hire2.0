@@ -7,7 +7,7 @@ const customStyles = {
   control: (provided, state) => ({
     ...provided,
     borderColor: state.isFocused ? "#57A8FF" : "#B0BEC5",
-    borderWidth: "2px",
+    borderWidth: "1.5px",
     borderRadius: "0.375rem",
     boxShadow: "none",
     minHeight: "40px",

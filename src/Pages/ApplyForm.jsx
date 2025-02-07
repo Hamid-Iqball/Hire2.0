@@ -102,20 +102,29 @@ function ApplyForm() {
           {/* Form fields */}
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Basic Info</h1>
-            <div className="grid grid-cols-1 md:grid-cols-[0.2fr,1fr] gap-2">
-              <Input label="Title" color="blue" name="title" onChange={handleInputChange} className="bg-white text-gray-700" />
-              <Input label="First Name" name="firstName" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
-            </div>
-            <Input label="Last Name" name="lastName" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
-            <Input label="Email Address" name="email" onChange={handleInputChange} color="blue" className="bg-white text-gray-700" />
-
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <Input label="Name" color="blue" name="Name" onChange={handleInputChange} className="bg-white text-gray-700" />
+              <Input label="Father Name" name="fatherName" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
+            <Input label="Date of Birth" name="dob" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
+            <Input label="Gender" name="gender" onChange={handleInputChange} color="blue" className="bg-white text-gray-700" />
+            <Input label="National ID" type="number" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
+            <Input label="marital_status" name="marital_status" type="text" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
+  
             <FloatingLabelSelect
               label="Select Country"
               options={optionCountries}
               onChange={handleCountryChange}
               isDisabled={isLoading}
               value={formData.country}
-            />
+              />
+
+            <FloatingLabelSelect label="City"/>
+
+            <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" />
+            <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" />
+            <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700" />
+            <Textarea type="text" label=" Permanent Address" name="permanent_add" color="blue" className="bg-white text-gray-700" />
+              </div>
           </div>
 
           <div className="flex flex-col gap-3 mt-3 w-full">
