@@ -6,6 +6,7 @@ import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { label } from "motion/react-client";
 
 function ApplyForm() {
   
@@ -19,7 +20,9 @@ function ApplyForm() {
     allStates,
     isLoading,
     getVacancey,
+    getAllCities,
     vacanceyQuestions,
+    allCities,
     formData,
     handleCountryChange,
     handleInputChange,
@@ -41,8 +44,18 @@ function ApplyForm() {
   const optionCountries = allStates.map((country) => ({
     value: country.id,
     label: country.name,
-  }));
+    id:country.value
+  }
+));
 
+// console.log(allCities)
+
+  const optionCities = allCities.map((city)=>({
+    value:city.id,
+    label: city.name
+  }))
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,9 +76,9 @@ function ApplyForm() {
       email: formData.email,
       country: formData.country,
       selectedLocation: formData.selectedLocation,
-      answers: questions.map((question) => ({
+      questionnaire: questions.map((question) => ({
         questionId: question.id,
-        answer: formData.answers[question.id] || "",
+        answer: formData.questionnaire[question.id] || "",
       })),
       resume: fileName,
     };
@@ -103,10 +116,14 @@ function ApplyForm() {
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Basic Info</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Input label="Name" color="blue" name="Name" onChange={handleInputChange} className="bg-white text-gray-700" />
-              <Input label="Father Name" name="fatherName" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
-            <Input label="Date of Birth" name="dob" color="blue" onChange={handleInputChange} className="bg-white text-gray-700" />
-            <Input label="Gender" name="gender" onChange={handleInputChange} color="blue" className="bg-white text-gray-700" />
+              <Input label="Name" color="blue" type="text" name="Name" onChange={handleInputChange} className="bg-white text-gray-700" />
+              <Input label="Father Name" name="fatherName" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
+            <Input label="Date of Birth" name="dob" color="blue" type='text' onChange={handleInputChange} className="bg-white text-gray-700" />
+            <Select label="Gender" name="gender" onChange={handleInputChange} color="blue" className="bg-white text-gray-700" >
+              <Option>Male</Option> 
+              <Option>Female</Option> 
+              <Option>Other</Option> 
+              </Select>
             <Input label="National ID" type="number" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
             <Input label="marital_status" name="marital_status" type="text" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
   
@@ -204,7 +221,7 @@ function ApplyForm() {
                   return (
                     <div key={questionId} className="mb-2">
                       <p>{`${index + 1}. ${questionText}`}</p>
-                      <Select color="blue" value={formData.answers[questionId]?.value || ""} label="Location" onChange={(value) => handleAnswerChange(questionId, value, question_type)} className="bg-white text-gray-700 mt-1">
+                      <Select color="blue" value={formData.questionnaire[questionId]?.value || ""} label="Location" onChange={(value) => handleAnswerChange(questionId, value, question_type)} className="bg-white text-gray-700 mt-1">
                         {options.map((option) => (
                           <Option key={option.id} value={option.id}>
                             {option.option_text}

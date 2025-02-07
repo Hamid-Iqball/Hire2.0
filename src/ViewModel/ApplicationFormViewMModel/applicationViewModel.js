@@ -11,8 +11,7 @@ const applicationViewModel = (set, get) => ({
   isLoadingVacancey:false,
   isSubmitting:false,
 
-//2
-
+//1
   getAllStates: async () => {
     set({ isLoadingStates: true });
     try {
@@ -37,21 +36,22 @@ const applicationViewModel = (set, get) => ({
 
 
 //2
-  getAllCities: async ({stateValue})=>{
+  getAllCities: async (stateValue)=>{
     set({isLoading:true})
 
     try {
       const apiData ={
         state_id:stateValue,
       }
+      
       const res = await ApplicationFormApi.getAllCities(apiData)
       if (!res || res.status !== 200) {
         throw new Error(`API responded with status ${res?.status}`);
       }
 
       const data =res.data
+      console.log(data)
 
-      console.log(res)
       if (data.STATUS === "SUCCESSFUL") {
         set({ allCities: data.DB_DATA || [] });
       } else {
@@ -100,6 +100,7 @@ const applicationViewModel = (set, get) => ({
   },
 
 
+  //4
   sendApplication:async(payload)=>{
   set((state)=>({...state, isSubmitting:true}))
 

@@ -5,6 +5,7 @@ export const useApplication = ()=>{
   const allStates = useStore((state)=>state.allStates)
   const getAllStates = useStore((state)=>state.getAllStates)
   const getAllCities = useStore((state)=>state.getAllCities)
+  const allCities = useStore((state)=>state.allCities)
   const getVacancey = useStore((state)=>state.getVacancey)
   const vacanceyQuestions = useStore((state)=>state.vacanceyQuestions)
   const sendApplication = useStore((state)=>state.sendApplication)
@@ -14,24 +15,41 @@ export const useApplication = ()=>{
 
   const [fileName, setFileName] = useState("");
   const [formData, setFormData] = useState({
-      title: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      country: null,
-      selectedLocation: "",
-      answers: {},
+      name: "",
+      father_name: "",
+      dob: "",
+      gender: "",
+      cnic: "",
+      marital_status: "",
+      state:"",
+      city:"",
+      phone_no:"",
+      email:"",
+      postal_add:"",
+      permanent_add:"",
+      cv:null,
+      applicant_img:"",
+
+
+      questionnaire: {},
       resume: null
 
     })
 
       // // Handle country selection
       const handleCountryChange = (selected) => {
+        if (selected && selected.id) {
+          console.log("Country ID:", selected.id);
+          getAllCities(selected.id); // Send the ID to the API
+        } else {
+          console.error("Selected object or ID is missing!");
+        }
       console.log(selected)
       setFormData(prev => ({
       ...prev,
       country: selected // Store the entire selected option
       }));
+      console.log(selected)
       };
 
       //Basic Info inputs
@@ -41,18 +59,18 @@ export const useApplication = ()=>{
       setFormData(prev => ({
       ...prev,
       [name]: value
-      }));
+      }));      
       };
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
       setFormData(prev => {
-        const prevValue = prev.answers[questionId]?.value || [];
+        const prevValue = prev.questionnaire[questionId]?.value || [];
     
         return {
           ...prev,
-          answers: {
-            ...prev.answers,
+          questionnaire: {
+            ...prev.questionnaire,
             [questionId]: {
               type,
               value:
@@ -88,6 +106,6 @@ export const useApplication = ()=>{
     };
 
 
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting }
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities}
 }
 
