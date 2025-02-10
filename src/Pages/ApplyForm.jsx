@@ -9,8 +9,6 @@ import toast from "react-hot-toast";
 
 
 function ApplyForm() {
-  
-
   const location = useLocation();
   const navigate = useNavigate();
   const { jobId, jobTitle, location: JobLocation } = location.state || {};
@@ -50,7 +48,6 @@ function ApplyForm() {
   }
 ));
 
-// console.log(allCities)
 
   const optionCities = allCities.map((city)=>({
     value:city.id,
@@ -61,7 +58,7 @@ function ApplyForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.country) {
+    if (!formData.firstName  || !formData.email || !formData.country) {
       toast.error("Please fill out all required fields.");
       return;
     }
@@ -74,7 +71,6 @@ function ApplyForm() {
     const applicationData = {
       jobId,
       firstName: formData.firstName,
-      lastName: formData.lastName,
       email: formData.email,
       country: formData.country,
       selectedLocation: formData.selectedLocation,
@@ -126,8 +122,8 @@ function ApplyForm() {
             <Select 
                   label="Gender" 
                   name="gender" 
-                  onChange={(value) => handleInputChange(value)} 
-                  lassName="bg-white text-gray-700"
+                  onChange={(value) => handleInputChange(value,"gender")} 
+                  className="bg-white text-gray-700"
                 >
                   <Option value="1">Male</Option> 
                   <Option value="0">Female</Option> 
@@ -142,6 +138,7 @@ function ApplyForm() {
             label="marital_status"
             name="marital_status"
             onChange={(value)=>handleInputChange(value,"marital status")}
+            className="bg-white text-gray-700"
             >
               <Option value="single">Single</Option>
               <Option value="married">married</Option>
@@ -265,29 +262,59 @@ function ApplyForm() {
           </div>
 
           <div className="place-self-start">
-            <h3 className="font-bold mb-5">Attachment Info</h3>
-            <div className="flex justify-between gap-2 items-center">
-              <div className="relative flex justify-between">
-                <input
-                  type="file"
-                  id="fileInput"
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                  placeholder="Browse Resume"
-                  onChange={handleFileChange}
-                />
-                <label htmlFor="fileInput" className="border border-dashed border-blue-500 rounded-md p-4 bg-white cursor-pointer">
-                  Browse Resume
-                </label>
-              </div>
-              <div className="mt-2">
-                {fileName ? (
-                  <p className="font-semibold text-gray-700">Selected File: {fileName}</p>
-                ) : (
-                  <p className="font-semibold text-gray-500">No file selected</p>
-                )}
-              </div>
-            </div>
-          </div>
+  <h3 className="font-bold mb-5">Attachment Info</h3>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    {/* Resume Upload */}
+    <div className="flex justify-between gap-2 items-center">
+      <div className="relative flex justify-between">
+        <input
+          type="file"
+          id="resumeInput"
+          className="absolute inset-0 opacity-0 cursor-pointer"
+          onChange={(e) => handleFileChange(e, "resume")}
+        />
+        <label htmlFor="resumeInput" className="border border-dashed border-blue-500 rounded-md p-4 bg-white cursor-pointer">
+          Browse Resume
+        </label>
+      </div>
+      <div className="mt-2">
+        {formData.resume ? (
+          <p className="font-semibold text-gray-700">Selected File: {formData.resume.name}</p>
+        ) : (
+          <p className="font-semibold text-gray-500">No file selected</p>
+        )}
+      </div>
+    </div>
+
+    {/* Profile Image Upload */}
+    <div className="flex justify-between gap-2 items-center">
+      <div className="relative flex justify-between">
+        <input
+          type="file"
+          id="profileImageInput"
+          className="absolute inset-0 opacity-0 cursor-pointer"
+          onChange={(e) => handleFileChange(e, "profileImage")}
+        />
+        <label htmlFor="profileImageInput" className="border border-dashed border-blue-500 rounded-md p-4 bg-white cursor-pointer">
+          Upload Profile Image
+        </label>
+      </div>
+      <div className="mt-2">
+        {formData.profileImage ? (
+          <p className="font-semibold text-gray-700">Selected File: {formData.profileImage.name}</p>
+        ) : (
+          <p className="font-semibold text-gray-500">No file selected</p>
+        )}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
           <div className="flex justify-start items-center gap-3 mt-3 place-self-start">
             <Button type="reset" className="bg-white text-customBlue-700 p-4 px-8">
               Cancel

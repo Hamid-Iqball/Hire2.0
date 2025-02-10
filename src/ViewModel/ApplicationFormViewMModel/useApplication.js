@@ -29,9 +29,9 @@ export const useApplication = ()=>{
       postal_add:"",
       permanent_add:"",
       cv:null,
-      applicant_img:"",
+      applicant_img:null,
       questionnaire: {},
-      resume: null
+     
 
     })
 
@@ -118,23 +118,17 @@ export const useApplication = ()=>{
     
 
 
-  //Resume File input
-  const handleFileChange = (e) => {
+    const handleFileChange = (e, fieldName) => {
       const file = e.target.files[0];
-      if (file) {
-      setFileName(file.name);
+    
+      console.log(file); // Log file details
+    
       setFormData(prev => ({
         ...prev,
-        resume: file
+        [fieldName]: file || null, // Store different files separately
       }));
-      } else {
-      setFileName("");
-      setFormData(prev => ({
-        ...prev,
-        resume: null
-      }));
-      }
     };
+    
 
 
 return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities}
