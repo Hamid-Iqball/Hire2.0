@@ -10,6 +10,7 @@ export const useApplication = ()=>{
   const vacanceyQuestions = useStore((state)=>state.vacanceyQuestions)
   const sendApplication = useStore((state)=>state.sendApplication)
   const isSubmitting = useStore((state)=>state.isSubmitting)
+  const isLoadingCities = useStore((state)=>state.isLoadingCities)
 
 
 
@@ -44,13 +45,24 @@ export const useApplication = ()=>{
         } else {
           console.error("Selected object or ID is missing!");
         }
-      console.log(selected)
+      // console.log(selected)
       setFormData(prev => ({
       ...prev,
       country: selected // Store the entire selected option
       }));
       console.log(selected)
       };
+
+
+
+      const handleChangeCity =(e)=>{
+        const {name,value} = e.target
+        console.log(name,value)
+        setFormData((prev)=>({
+          ...prev,
+          [name]:value
+        }))
+      }
 
       //Basic Info inputs
       const handleInputChange = (e) => {
@@ -106,6 +118,6 @@ export const useApplication = ()=>{
     };
 
 
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities}
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities}
 }
 

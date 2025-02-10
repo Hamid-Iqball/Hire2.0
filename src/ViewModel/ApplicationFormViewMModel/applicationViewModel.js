@@ -7,7 +7,7 @@ const applicationViewModel = (set, get) => ({
   allCities:[],
   vacanceyQuestions:{},
   isLoadingStates: false,
-  isLoading:false,
+  isLoadingCities:false,
   isLoadingVacancey:false,
   isSubmitting:false,
 
@@ -37,7 +37,7 @@ const applicationViewModel = (set, get) => ({
 
 //2
   getAllCities: async (stateValue)=>{
-    set({isLoading:true})
+    set({isLoadingCities:true})
 
     try {
       const apiData ={
@@ -50,7 +50,7 @@ const applicationViewModel = (set, get) => ({
       }
 
       const data =res.data
-      console.log(data)
+      
 
       if (data.STATUS === "SUCCESSFUL") {
         set({ allCities: data.DB_DATA || [] });
@@ -60,7 +60,7 @@ const applicationViewModel = (set, get) => ({
     } catch (error) {
       console.error("Error fetching states:", error.message || error);
     } finally {
-      set({ isLoading: false });
+      set({ isLoadingCities: false });
     }
   },
 

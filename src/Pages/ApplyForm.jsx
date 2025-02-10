@@ -6,7 +6,7 @@ import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { label } from "motion/react-client";
+
 
 function ApplyForm() {
   
@@ -20,7 +20,8 @@ function ApplyForm() {
     allStates,
     isLoading,
     getVacancey,
-    getAllCities,
+    // getAllCities,
+    handleChangeCity,
     vacanceyQuestions,
     allCities,
     formData,
@@ -31,6 +32,7 @@ function ApplyForm() {
     fileName,
     isSubmitting,
     sendApplication,
+    isLoadingCities
   } = useApplication();
 
   useEffect(() => {
@@ -48,11 +50,11 @@ function ApplyForm() {
   }
 ));
 
-// console.log(allCities)
+console.log(allCities)
 
   const optionCities = allCities.map((city)=>({
     value:city.id,
-    label: city.name
+    label: city.city_name
   }))
 
   
@@ -135,7 +137,7 @@ function ApplyForm() {
               value={formData.country}
               />
 
-            <FloatingLabelSelect label="City"/>
+            <FloatingLabelSelect label="Select City" options={optionCities} onChange={handleChangeCity} value={formData.city} disabled={isLoadingCities}/>
 
             <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" />
             <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" />
