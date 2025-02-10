@@ -50,7 +50,7 @@ function ApplyForm() {
   }
 ));
 
-console.log(allCities)
+// console.log(allCities)
 
   const optionCities = allCities.map((city)=>({
     value:city.id,
@@ -118,16 +118,36 @@ console.log(allCities)
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Basic Info</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Input label="Name" color="blue" type="text" name="Name" onChange={handleInputChange} className="bg-white text-gray-700" />
-              <Input label="Father Name" name="fatherName" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
+              <Input label="Name" color="blue" type="text" name="name" onChange={handleInputChange} className="bg-white text-gray-700" />
+              <Input label="Father Name" name="father_name" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
             <Input label="Date of Birth" name="dob" color="blue" type='text' onChange={handleInputChange} className="bg-white text-gray-700" />
-            <Select label="Gender" name="gender" onChange={handleInputChange} color="blue" className="bg-white text-gray-700" >
-              <Option>Male</Option> 
-              <Option>Female</Option> 
-              <Option>Other</Option> 
-              </Select>
-            <Input label="National ID" type="number" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
-            <Input label="marital_status" name="marital_status" type="text" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
+
+
+            <Select 
+                  label="Gender" 
+                  name="gender" 
+                  onChange={(value) => handleInputChange(value)} 
+                  lassName="bg-white text-gray-700"
+                >
+                  <Option value="1">Male</Option> 
+                  <Option value="0">Female</Option> 
+                  <Option value="2">Other</Option> 
+                </Select>
+
+
+
+            <Input label="National ID" type="number" name="cnic" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
+
+            <Select 
+            label="marital_status"
+            name="marital_status"
+            onChange={(value)=>handleInputChange(value,"marital status")}
+            >
+              <Option value="single">Single</Option>
+              <Option value="married">married</Option>
+              <Option value="divorced">divorced</Option>
+            </Select>
+           
   
             <FloatingLabelSelect
               label="Select Country"
@@ -137,12 +157,18 @@ console.log(allCities)
               value={formData.country}
               />
 
-            <FloatingLabelSelect label="Select City" options={optionCities} onChange={handleChangeCity} value={formData.city} disabled={isLoadingCities}/>
+            <FloatingLabelSelect 
+            label="Select City" 
+            options={optionCities}
+             onChange={handleChangeCity} 
+             value={formData.city} 
+             disabled={isLoadingCities}
+             />
 
-            <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" />
-            <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" />
-            <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700" />
-            <Textarea type="text" label=" Permanent Address" name="permanent_add" color="blue" className="bg-white text-gray-700" />
+            <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
+            <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
+            <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange}/>
+            <Textarea type="text" label=" Permanent Address" name="permanent_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
               </div>
           </div>
 

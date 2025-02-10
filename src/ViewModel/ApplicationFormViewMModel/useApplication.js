@@ -30,8 +30,6 @@ export const useApplication = ()=>{
       permanent_add:"",
       cv:null,
       applicant_img:"",
-
-
       questionnaire: {},
       resume: null
 
@@ -40,39 +38,60 @@ export const useApplication = ()=>{
       // // Handle country selection
       const handleCountryChange = (selected) => {
         if (selected && selected.id) {
-          console.log("Country ID:", selected.id);
-          getAllCities(selected.id); // Send the ID to the API
-        } else {
-          console.error("Selected object or ID is missing!");
+          getAllCities(selected.id);
         }
       // console.log(selected)
       setFormData(prev => ({
       ...prev,
       country: selected // Store the entire selected option
       }));
-      console.log(selected)
+      // console.log(selected)
       };
 
 
 
-      const handleChangeCity =(e)=>{
-        const {name,value} = e.target
-        console.log(name,value)
+      const handleChangeCity =(selectedCity)=>{
+
+
+       if(!selectedCity) {
         setFormData((prev)=>({
           ...prev,
-          [name]:value
+          country:"",
+          city:"",
+
+        }))
+       }; 
+      
+       console.log(selectedCity)
+        setFormData((prev)=>({
+          ...prev,
+          city:selectedCity
         }))
       }
 
       //Basic Info inputs
-      const handleInputChange = (e) => {
-      const { name, value } = e.target;
-
-      setFormData(prev => ({
-      ...prev,
-      [name]: value
-      }));      
+      const handleInputChange = (e, name) => {
+        let fieldName, fieldValue;
+      
+        // Check if e is an event (for regular inputs) or a value (for Material Tailwind Select)
+        if (e.target) {
+          // Regular input fields (e.target exists)
+          fieldName = e.target.name;
+          fieldValue = e.target.value;
+        } else {
+          // Material Tailwind Select (passes value directly, so we use the provided name)
+          fieldName = name;
+          fieldValue = e;
+        }
+      
+        console.log(fieldName, fieldValue);
+      
+        setFormData((prev) => ({
+          ...prev,
+          [fieldName]: fieldValue,
+        }));
       };
+      
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
