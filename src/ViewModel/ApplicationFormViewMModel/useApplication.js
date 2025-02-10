@@ -75,11 +75,11 @@ export const useApplication = ()=>{
       
         // Check if e is an event (for regular inputs) or a value (for Material Tailwind Select)
         if (e.target) {
-          // Regular input fields (e.target exists)
+          
           fieldName = e.target.name;
           fieldValue = e.target.value;
         } else {
-          // Material Tailwind Select (passes value directly, so we use the provided name)
+          
           fieldName = name;
           fieldValue = e;
         }

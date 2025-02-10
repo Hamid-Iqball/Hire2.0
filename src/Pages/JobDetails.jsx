@@ -16,16 +16,17 @@ function JobDetails() {
 
 const navigate = useNavigate()
 const location = useLocation()
-const {jobDetails} = location.state
+const {jobDetails, orgDetails} = location.state
 
+console.log(orgDetails)
 const handleApply = ()=>{
 navigate("/applyform" , {
     state:{
         jobId:jobDetails.id,
         jobTitle:jobDetails.title,
         location:jobDetails.locations.map((el)=>el.city_name).join(',') || 'Location not specified',
+        orgDetails:orgDetails
         
-    
     }
 })
 }

@@ -19,7 +19,9 @@ function Home() {
   const isJobDetailsPage = location.pathname.startsWith("/vacancy");
 
   function handleClick(job){
-    navigate(`/vacancy/${job.id}`, {state:{jobDetails:job }});
+    navigate(`/vacancy/${job.id}`, {state:{jobDetails:job,
+      orgDetails:orgDetails
+     }});
    
   }
   return (
