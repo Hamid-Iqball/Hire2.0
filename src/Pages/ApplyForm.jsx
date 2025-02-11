@@ -7,6 +7,7 @@ import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplic
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import ApplicationFormApi from "../Model/ApplicationForm/applicationformApi";
+import CustomDatePicker from "../Components/customDatePicker";
 // import toast from "react-hot-toast";
 
 
@@ -61,7 +62,7 @@ function ApplyForm() {
     label: city.city_name
   }))
 
-  
+  console.log(formData.country)
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -145,7 +146,8 @@ const handleSubmit = async (e) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <Input label="Name" color="blue" type="text" name="name" onChange={handleInputChange} className="bg-white text-gray-700" />
               <Input label="Father Name" name="father_name" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
-               <Input label="Date of Birth" name="dob" color="blue" type='text' onChange={handleInputChange} className="bg-white text-gray-700" />
+              <CustomDatePicker label="Date of Birth" name="dob" onChange={handleInputChange} value={formData.dob} />
+
 
 
             <Select 
@@ -187,8 +189,8 @@ const handleSubmit = async (e) => {
             label="Select City" 
             options={optionCities}
              onChange={handleChangeCity} 
+             isDisabled={isLoadingCities}
              value={formData.city} 
-             disabled={isLoadingCities}
              />
 
             <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />

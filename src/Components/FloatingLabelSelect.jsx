@@ -43,8 +43,9 @@ function FloatingLabelSelect({ label, options, onChange, value, isDisabled }) {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (selected) => {
-    onChange?.(selected);
+  
     // console.log(selected)
+    onChange?.(selected);
   };
 
   return (

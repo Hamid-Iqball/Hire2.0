@@ -1,5 +1,7 @@
+import { format, parseISO, isValid } from "date-fns";
 import { useState } from "react"
 import useStore from "../../Store/Store"
+
 
 export const useApplication = ()=>{
   const allStates = useStore((state)=>state.allStates)
@@ -39,13 +41,14 @@ export const useApplication = ()=>{
 
       // // Handle country selection
       const handleCountryChange = (selected) => {
+        console.log(selected)
         if (selected && selected.id) {
           getAllCities(selected.id);
         }
       // console.log(selected)
       setFormData(prev => ({
       ...prev,
-      country: selected // Store the entire selected option
+      state: selected.id // Store the entire selected option
       }));
       // console.log(selected)
       };
@@ -72,18 +75,38 @@ export const useApplication = ()=>{
       }
 
       //Basic Info inputs
+
+   
+
+    
+
+    
+
       const handleInputChange = (e, name) => {
         let fieldName, fieldValue;
       
-        // Check if e is an event (for regular inputs) or a value (for Material Tailwind Select)
-        if (e.target) {
-          
+        if (e?.target) {
           fieldName = e.target.name;
           fieldValue = e.target.value;
         } else {
-          
           fieldName = name;
-          fieldValue = e;
+          fieldValue = e; // This handles custom components like Select or DatePickers
+        }
+      
+        // Handle date formatting for "dob"
+        if (fieldName === "dob" && fieldValue) {
+          try {
+            if (fieldValue instanceof Date) {
+              // If value is already a Date object, format it directly
+              fieldValue = format(fieldValue, "yyyy-MM-dd");
+            } else if (typeof fieldValue === "string") {
+              // If value is a string, try parsing it
+              const parsedDate = parse(fieldValue, "yyyy-MM-dd", new Date());
+              fieldValue = format(parsedDate, "yyyy-MM-dd");
+            }
+          } catch (error) {
+            console.error("Error formatting date:", error);
+          }
         }
       
         console.log(fieldName, fieldValue);
@@ -94,6 +117,10 @@ export const useApplication = ()=>{
         }));
       };
       
+      
+      
+      
+
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
