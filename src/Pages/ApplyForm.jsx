@@ -17,7 +17,7 @@ function ApplyForm() {
   const organaisation = orgDetails[0]
   const {org_name, id:orgId} = organaisation
 
-console.log(org_name, orgId)
+// console.log(org_name, orgId)
   const {
     getAllStates,
     allStates,
@@ -32,7 +32,7 @@ console.log(org_name, orgId)
     handleInputChange,
     handleFileChange,
     handleAnswerChange,
-    // fileName,
+ 
     isSubmitting,
     sendApplication,
     isLoadingCities
@@ -59,6 +59,7 @@ console.log(org_name, orgId)
     label: city.city_name
   }))
 
+ console.log('cvvvvvvv' ,formData.questionnaire)
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -218,11 +219,12 @@ console.log(org_name, orgId)
         <form className="flex justify-center mx-auto flex-col items-center gap-8 w-[90%] md:w-3/5" onSubmit={handleSubmit}>
           {/* Form fields */}
           <div className="flex flex-col gap-3 mt-3 w-full">
-            <h1 className="font-bold">Basic Info</h1>
+            <h1 className="font-bold">Profile Info</h1>
+              {/* Profile information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <Input label="Name" color="blue" type="text" name="name" onChange={handleInputChange} className="bg-white text-gray-700" />
               <Input label="Father Name" name="father_name" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
-            <Input label="Date of Birth" name="dob" color="blue" type='text' onChange={handleInputChange} className="bg-white text-gray-700" />
+               <Input label="Date of Birth" name="dob" color="blue" type='text' onChange={handleInputChange} className="bg-white text-gray-700" />
 
 
             <Select 
@@ -272,9 +274,10 @@ console.log(org_name, orgId)
             <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
             <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange}/>
             <Textarea type="text" label=" Permanent Address" name="permanent_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
-              </div>
+            </div>
           </div>
 
+        {/* Questionnaire  */}
           <div className="flex flex-col gap-3 mt-3 w-full">
             <h1 className="font-bold">Questionnaire</h1>
             {locations.length > 0 ? (
@@ -372,21 +375,22 @@ console.log(org_name, orgId)
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
     {/* Resume Upload */}
-    <div className="flex justify-between gap-2 items-center">
+    <div className="flex justify-start gap-2 items-center">
       <div className="relative flex justify-between">
         <input
           type="file"
-          id="resumeInput"
+          id="cv"
+          name="cv"
           className="absolute inset-0 opacity-0 cursor-pointer"
-          onChange={(e) => handleFileChange(e, "resume")}
+          onChange={(e) => handleFileChange(e, "cv")}
         />
         <label htmlFor="resumeInput" className="border border-dashed border-blue-500 rounded-md p-4 bg-white cursor-pointer">
           Browse Resume
         </label>
       </div>
       <div className="mt-2">
-        {formData.resume ? (
-          <p className="font-semibold text-gray-700">Selected File: {formData.resume.name}</p>
+        {formData.cv ? (
+          <p className="font-semibold text-gray-700">Selected File: {formData.cv.name}</p>
         ) : (
           <p className="font-semibold text-gray-500">No file selected</p>
         )}
@@ -394,21 +398,23 @@ console.log(org_name, orgId)
     </div>
 
     {/* Profile Image Upload */}
-    <div className="flex justify-between gap-2 items-center">
+    <div className="flex justify-start gap-2 items-center">
       <div className="relative flex justify-between">
         <input
           type="file"
-          id="profileImageInput"
+          id="applicant_img"
+          name="applicant_img"
+          accept=".pdf, .doc, .docx"
           className="absolute inset-0 opacity-0 cursor-pointer"
-          onChange={(e) => handleFileChange(e, "profileImage")}
+          onChange={(e) => handleFileChange(e, "applicant_img")}
         />
         <label htmlFor="profileImageInput" className="border border-dashed border-blue-500 rounded-md p-4 bg-white cursor-pointer">
           Upload Profile Image
         </label>
       </div>
       <div className="mt-2">
-        {formData.profileImage ? (
-          <p className="font-semibold text-gray-700">Selected File: {formData.profileImage.name}</p>
+        {formData.applicant_img ? (
+          <p className="font-semibold text-gray-700">Selected File: {formData.applicant_img.name}</p>
         ) : (
           <p className="font-semibold text-gray-500">No file selected</p>
         )}

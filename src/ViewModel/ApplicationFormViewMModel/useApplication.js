@@ -14,7 +14,6 @@ export const useApplication = ()=>{
 
 
 
-  const [fileName, setFileName] = useState("");
   const [formData, setFormData] = useState({
       name: "",
       father_name: "",
@@ -28,6 +27,8 @@ export const useApplication = ()=>{
       email:"",
       postal_add:"",
       permanent_add:"",
+      user_id:15192,
+      oneid:10395472,
       cv:null,
       applicant_img:null,
       questionnaire: {},
@@ -121,7 +122,7 @@ export const useApplication = ()=>{
     const handleFileChange = (e, fieldName) => {
       const file = e.target.files[0];
     
-      console.log(file); // Log file details
+      // console.log(file); // Log file details
     
       setFormData(prev => ({
         ...prev,
@@ -131,6 +132,6 @@ export const useApplication = ()=>{
     
 
 
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication, fileName , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities}
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities}
 }
 

@@ -38,7 +38,10 @@ import { axiosInstance } from "../Utils/Base"
     return axiosInstance.request({
         method:'POST',
         url:'/set_data.php',
-        data:payload
+        data:{
+            'operation':'apply_profile_vacancy',
+            ...payload
+        }
     })
     }
     }
