@@ -32,8 +32,9 @@ export const useApplication = ()=>{
       cv:null,
       applicant_img:null,
       questionnaire: {},
-     
-
+      v_name:"",
+      org_name:"",
+      org_id:""
     })
 
       // // Handle country selection
@@ -132,6 +133,6 @@ export const useApplication = ()=>{
     
 
 
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities}
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities , setFormData}
 }
 

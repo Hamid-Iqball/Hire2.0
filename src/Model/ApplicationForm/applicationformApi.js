@@ -1,4 +1,4 @@
-import { axiosInstance } from "../Utils/Base"
+import { axiosInstance, axiosInstanceMultipart } from "../Utils/Base"
 
     const ApplicationFormApi ={
     getAllStates:function (){
@@ -35,13 +35,11 @@ import { axiosInstance } from "../Utils/Base"
     },
 
     applyVacancey:function(payload){
-    return axiosInstance.request({
+        // console.log('what is coming from',payload)
+    return axiosInstanceMultipart.request({
         method:'POST',
         url:'/set_data.php',
-        data:{
-            'operation':'apply_profile_vacancy',
-            ...payload
-        }
+        data:payload
     })
     }
     }

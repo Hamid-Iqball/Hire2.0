@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
+import ApplicationFormApi from "../Model/ApplicationForm/applicationformApi";
 // import toast from "react-hot-toast";
 
 
@@ -13,17 +15,17 @@ function ApplyForm() {
   const navigate = useNavigate();
   const { jobId, jobTitle, location: JobLocation, orgDetails  } = location.state || {};
 
+  
 
   const organaisation = orgDetails[0]
   const {org_name, id:orgId} = organaisation
+  
 
-// console.log(org_name, orgId)
   const {
     getAllStates,
     allStates,
     isLoading,
     getVacancey,
-    // getAllCities,
     handleChangeCity,
     vacanceyQuestions,
     allCities,
@@ -59,144 +61,63 @@ function ApplyForm() {
     label: city.city_name
   }))
 
- console.log('cvvvvvvv' ,formData.questionnaire)
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const submitFormData = new FormData();
+
+  // Append form fields
+
+  for (const key in formData) {
     
-    // Required fields validation
-    // const requiredFields = {
-    //   name: "Name",
-    //   father_name: "Father's Name",
-    //   dob: "Date of Birth",
-    //   gender: "Gender",
-    //   cnic: "National ID",
-    //   marital_status: "marital_status",
-    //   country: "Country",
-    //   city: "City",
-    //   phone_no: "Phone Number",
-    //   email: "Email",
-    //   postal_add: "Postal Address",
-    //   permanent_add: "Permanent Address"
-    // };
+    if (formData[key] !== null && formData[key] !== undefined) {
+      submitFormData.append(key, formData[key]);
+    }
+  }
+
+  submitFormData.append('operation', 'apply_profile_vacancy')
+
+  submitFormData.forEach((value, key) => {
+    console.log(key, value);
+  });
   
-    // // Check required fields
-    // const missingFields = Object.entries(requiredFields)
-    //   .filter(([key]) => !formData[key])
-    //   .map(([_, label]) => label);
-  
-    // if (missingFields.length > 0) {
-    //   toast.error(`Please fill in the following required fields: ${missingFields.join(", ")}`);
-    //   return;
-    // }
-  
-    // // Validate file uploads
-    // if (!formData.resume) {
-    //   toast.error("Please upload your resume");
-    //   return;
-    // }
-  
-    // if (!formData.profileImage) {
-    //   toast.error("Please upload your profile image");
-    //   return;
-    // }
-  
-    // // Validate questionnaire
-    // if (locations.length > 0 && !formData.selectedLocation) {
-    //   toast.error("Please select a location where you want to apply");
-    //   return;
-    // }
-  
-    // // Check if all required questions are answered
-    // const unansweredQuestions = questions
-    //   .filter(question => !formData.questionnaire[question.id])
-    //   .map(question => question.question);
-  
-    // if (unansweredQuestions.length > 0) {
-    //   toast.error("Please answer all questions in the questionnaire");
-    //   return;
-    // }
-  
-    // // Prepare form data for submission
-    // const submitFormData = new FormData();
-  
-    // // Add basic info
-    // Object.keys(requiredFields).forEach(field => {
-    //   if (field === 'country') {
-    //     submitFormData.append('country', formData.country.id);
-    //   } else if (field === 'city') {
-    //     submitFormData.append('city', formData.city.value);
-    //   } else {
-    //     submitFormData.append(field, formData[field]);
-    //   }
-    // });
-  
-    // // Add job specific info
-    // submitFormData.append('jobId', jobId);
-    // submitFormData.append('jobTitle', jobTitle);
-  
-    // // Add location preference if exists
-    // if (formData.selectedLocation) {
-    //   submitFormData.append('preferredLocation', formData.selectedLocation);
-    // }
-  
-    // // Add questionnaire responses
-    // const questionnaireResponses = questions.map(question => ({
-    //   questionId: question.id,
-    //   type: question.question_type,
-    //   answer: formData.questionnaire[question.id]?.value || "",
-    // }));
-  
-    // submitFormData.append('questionnaire', JSON.stringify(questionnaireResponses));
-  
-    // // Add files
-    // submitFormData.append('resume', formData.resume);
-    // submitFormData.append('profileImage', formData.profileImage);
-  
-    // try {
-    //   // Show loading state
-    //   toast.loading("Submitting your application...", {
-    //     id: "applicationSubmission",
-    //   });
-  
-    //   // Send the application
-    //   await sendApplication(submitFormData);
-  
-    //   // Show success message
-    //   toast.success("Your application has been submitted successfully", {
-    //     id: "applicationSubmission",
-    //   });
-  
-    //   // Navigate back to jobs page
-    //   navigate("/");
-    // } catch (error) {
-    //   // Handle specific error cases
-    //   let errorMessage = "Failed to submit application. Please try again.";
-  
-    //   if (error.response) {
-    //     switch (error.response.status) {
-    //       case 413:
-    //         errorMessage = "Files are too large. Please upload smaller files.";
-    //         break;
-    //       case 415:
-    //         errorMessage = "Invalid file format. Please upload supported file types.";
-    //         break;
-    //       case 429:
-    //         errorMessage = "Too many attempts. Please try again later.";
-    //         break;
-    //       default:
-    //         if (error.response.data?.message) {
-    //           errorMessage = error.response.data.message;
-    //         }
-    //     }
-    //   }
-  
-    //   toast.error(errorMessage, {
-    //     id: "applicationSubmission",
-    //   });
-    //   console.error("Application submission error:", error);
-    // }
-  };
+
+  try {
+   const response = await ApplicationFormApi.applyVacancey(submitFormData)
+  } catch (error) {
+    console.log(error)
+  }
+
+
+    // console.log('submitFormData', submitFormData)
+    
+
+
+  // Append organization details
+  // submitFormData.append("org_id", orgId);
+  // submitFormData.append("org_name", org_name);
+  // submitFormData.append("v_name", jobTitle);
+
+
+  // try {
+  //   // Show loading state
+  //   toast.loading("Submitting...", { id: "submitStatus" });
+
+  //   // Send data
+  //   await sendApplication(submitFormData);
+
+  //   // Success message
+  //   toast.success("Application submitted successfully!", { id: "submitStatus" });
+
+  //   // Redirect or reset form
+  //   navigate("/");
+  // } catch (error) {
+  //   toast.error("Something went wrong. Please try again.", { id: "submitStatus" });
+  // }
+}
+
+
   return (
     <>
       <header className="flex justify-center items-center p-10 bg-[#170909] text-white">
@@ -291,7 +212,7 @@ function ApplyForm() {
                   className="bg-white text-gray-700"
                 >
                   {locations.map((el) => (
-                    <Option key={el.id} value={el.city_name}>
+                    <Option key={el.id} value={el.id}>
                       {el.city_name}
                     </Option>
                   ))}

@@ -7,3 +7,11 @@ export const axiosInstance = axios.create({
         "Content-Type":"Application/json"
     }
 })
+
+export const axiosInstanceMultipart = axios.create({
+    baseURL:BaseURL,
+    headers: {
+        'Content-Type': 'multipart/form-data' // Important for FormData
+    }
+})
+

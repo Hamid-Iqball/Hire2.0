@@ -1,5 +1,4 @@
 
-
 import { Button } from "@material-tailwind/react";
 import React from "react";
 import { BsGenderAmbiguous } from "react-icons/bs";
@@ -18,7 +17,8 @@ const navigate = useNavigate()
 const location = useLocation()
 const {jobDetails, orgDetails} = location.state
 
-console.log(orgDetails)
+
+
 const handleApply = ()=>{
 navigate("/applyform" , {
     state:{
@@ -29,7 +29,10 @@ navigate("/applyform" , {
         
     }
 })
+
+
 }
+
   return (
 
     <div className=" px-2 p-4 sm:p-6 sm:px-8 rounded-2xl border-8 border-customGray-700 xs:px-4  ">
