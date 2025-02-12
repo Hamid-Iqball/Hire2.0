@@ -33,6 +33,7 @@ export const useApplication = ()=>{
       oneid:10395472,
       cv:null,
       applicant_img:null,
+      city_id:"",
       questionnaire: {},
      
     })
@@ -120,7 +121,7 @@ export const useApplication = ()=>{
 
     //Questionniers inputs
     const handleAnswerChange = (questionId, value, type) => {
-      setFormData(prev => {
+      setFormData((prev) => {
         const prevValue = prev.questionnaire[questionId]?.value || [];
     
         return {
@@ -130,13 +131,13 @@ export const useApplication = ()=>{
             [questionId]: {
               type,
               value:
-                type === 'Checkboxes'
+                type === "Checkboxes"
                   ? prevValue.includes(value)
-                    ? prevValue.filter(v => v !== value)
-                    : [...prevValue, value] 
-                  : value 
-            }
-          }
+                    ? prevValue.filter((v) => v !== value) // Remove if already selected
+                    : [...prevValue, value] // Add new checkbox selection
+                  : value, // Set for other input types
+            },
+          },
         };
       });
     };

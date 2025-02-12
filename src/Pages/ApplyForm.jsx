@@ -46,6 +46,7 @@ function ApplyForm() {
     getVacancey(jobId);
   }, [getAllStates, getVacancey, jobId]);
 
+  console.log(vacanceyQuestions)
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
 
@@ -68,61 +69,56 @@ function ApplyForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-   
     const submitFormData = new FormData();
   
-    // Append basic form fields
+    // Convert questionnaire object to an array of objects
+    const questionnaireArray = Object.entries(formData.questionnaire || {}).map(
+      ([questionId, { type, value }]) => ({
+        questionId,
+        type,
+        value,
+      })
+    );
+
+    console.log(questionnaireArray)
+  
+    // Append fields to FormData
     for (const key in formData) {
       if (formData[key] !== null && formData[key] !== undefined) {
-        // Handle file objects separately
-        if (key === 'cv' || key === 'applicant_img') {
+        if (key === "cv" || key === "applicant_img") {
           if (formData[key] instanceof File) {
             submitFormData.append(key, formData[key]);
           }
-        } 
-        // Handle questionnaire answers
-        else if (key === 'questionnaire') {
-          // Convert questionnaire object to JSON string
-          submitFormData.append('questionnaire', JSON.stringify(formData[key]));
-        }
-        // Handle all other fields
-        else {
+        } else if (key === "questionnaire") {
+          submitFormData.append("questionnaire", questionnaireArray);
+        } else {
           submitFormData.append(key, formData[key]);
         }
       }
     }
   
-    // Append required operation type
-    submitFormData.append('operation', 'apply_profile_vacancy');
-  
-    // Append organization and job details
+    submitFormData.append("operation", "apply_profile_vacancy");
     submitFormData.append("org_id", orgId);
     submitFormData.append("org_name", org_name);
     submitFormData.append("v_name", jobTitle);
     submitFormData.append("id", jobId);
   
     try {
-      // Show loading toast
       toast.loading("Submitting application...", { id: "submitStatus" });
   
-      // Send application using the provided sendApplication function
       await sendApplication(submitFormData);
   
-      // Show success message
       toast.success("Application submitted successfully!", { id: "submitStatus" });
-  
-      // Redirect to home page
       navigate("/");
     } catch (error) {
-      // Show error message
       toast.error(
-        error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.", 
+        error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.",
         { id: "submitStatus" }
       );
-      
       console.error("Application submission error:", error);
     }
   };
+  
 
 
   return (
@@ -222,7 +218,7 @@ function ApplyForm() {
       <Select
         label="Select Location"
         value={formData.selectedLocation}
-        onChange={(value) => handleAnswerChange('location', value, 'location')}
+        onChange={(value) => handleInputChange(value,'city_id')}
         color="blue"
         className="bg-white text-gray-700"
       >
