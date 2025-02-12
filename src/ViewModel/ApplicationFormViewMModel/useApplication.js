@@ -1,4 +1,4 @@
-import { format, parseISO, isValid } from "date-fns";
+import { format, parseISO, isValid, parse } from "date-fns";
 import { useState } from "react"
 import useStore from "../../Store/Store"
 
@@ -34,9 +34,7 @@ export const useApplication = ()=>{
       cv:null,
       applicant_img:null,
       questionnaire: {},
-      v_name:"",
-      org_name:"",
-      org_id:""
+     
     })
 
       // // Handle country selection
@@ -55,24 +53,22 @@ export const useApplication = ()=>{
 
 
 
-      const handleChangeCity =(selectedCity)=>{
-
-
-       if(!selectedCity) {
-        setFormData((prev)=>({
-          ...prev,
-          country:"",
-          city:"",
-
-        }))
-       }; 
+      const handleChangeCity = (selectedOption) => {
+        if (!selectedOption) {
+          setFormData((prev) => ({
+            ...prev,
+            city: "",
+          }));
+          return;
+        }
       
-       console.log(selectedCity)
-        setFormData((prev)=>({
+        setFormData((prev) => ({
           ...prev,
-          city:selectedCity
-        }))
-      }
+          city: selectedOption.value,
+          // Optionally store city name if needed
+        
+        }));
+      };
 
       //Basic Info inputs
 

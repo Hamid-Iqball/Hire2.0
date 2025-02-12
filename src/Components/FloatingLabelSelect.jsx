@@ -44,7 +44,7 @@ function FloatingLabelSelect({ label, options, onChange, value, isDisabled }) {
 
   const handleChange = (selected) => {
   
-    // console.log(selected)
+    console.log(selected)
     onChange?.(selected);
   };
 

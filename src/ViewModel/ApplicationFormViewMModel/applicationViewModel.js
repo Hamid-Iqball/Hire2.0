@@ -113,11 +113,12 @@ const applicationViewModel = (set, get) => ({
       }
   
       const data = response.data;
+
   
       if (data?.STATUS === "SUCCESSFUL") {
         return { success: true, data: data.DB_DATA };
       } else {
-        return { success: false, error: data?.Error || "Unknown API ERROR" };
+        return { success: false, error: data?.ERROR_DESCRIPTION || "Unknown API ERROR" };
       }
   
     } catch (error) {

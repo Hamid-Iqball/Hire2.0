@@ -6,7 +6,7 @@ import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import ApplicationFormApi from "../Model/ApplicationForm/applicationformApi";
+
 import CustomDatePicker from "../Components/customDatePicker";
 // import toast from "react-hot-toast";
 
@@ -56,67 +56,73 @@ function ApplyForm() {
   }
 ));
 
+// console.log(allCities)
 
   const optionCities = allCities.map((city)=>({
     value:city.id,
-    label: city.city_name
+    label: city.city_name,
+    valueName:city.id
   }))
 
-  console.log(formData.country)
-const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  const submitFormData = new FormData();
-
-  // Append form fields
-
-  for (const key in formData) {
-    
-    if (formData[key] !== null && formData[key] !== undefined) {
-      submitFormData.append(key, formData[key]);
-    }
-  }
-
-  submitFormData.append('operation', 'apply_profile_vacancy')
-
-  submitFormData.forEach((value, key) => {
-    console.log(key, value);
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
   
-
-  try {
-   const response = await ApplicationFormApi.applyVacancey(submitFormData)
-  } catch (error) {
-    console.log(error)
-  }
-
-
-    // console.log('submitFormData', submitFormData)
-    
-
-
-  // Append organization details
-  // submitFormData.append("org_id", orgId);
-  // submitFormData.append("org_name", org_name);
-  // submitFormData.append("v_name", jobTitle);
-
-
-  // try {
-  //   // Show loading state
-  //   toast.loading("Submitting...", { id: "submitStatus" });
-
-  //   // Send data
-  //   await sendApplication(submitFormData);
-
-  //   // Success message
-  //   toast.success("Application submitted successfully!", { id: "submitStatus" });
-
-  //   // Redirect or reset form
-  //   navigate("/");
-  // } catch (error) {
-  //   toast.error("Something went wrong. Please try again.", { id: "submitStatus" });
-  // }
-}
+   
+    const submitFormData = new FormData();
+  
+    // Append basic form fields
+    for (const key in formData) {
+      if (formData[key] !== null && formData[key] !== undefined) {
+        // Handle file objects separately
+        if (key === 'cv' || key === 'applicant_img') {
+          if (formData[key] instanceof File) {
+            submitFormData.append(key, formData[key]);
+          }
+        } 
+        // Handle questionnaire answers
+        else if (key === 'questionnaire') {
+          // Convert questionnaire object to JSON string
+          submitFormData.append('questionnaire', JSON.stringify(formData[key]));
+        }
+        // Handle all other fields
+        else {
+          submitFormData.append(key, formData[key]);
+        }
+      }
+    }
+  
+    // Append required operation type
+    submitFormData.append('operation', 'apply_profile_vacancy');
+  
+    // Append organization and job details
+    submitFormData.append("org_id", orgId);
+    submitFormData.append("org_name", org_name);
+    submitFormData.append("v_name", jobTitle);
+    submitFormData.append("id", jobId);
+  
+    try {
+      // Show loading toast
+      toast.loading("Submitting application...", { id: "submitStatus" });
+  
+      // Send application using the provided sendApplication function
+      await sendApplication(submitFormData);
+  
+      // Show success message
+      toast.success("Application submitted successfully!", { id: "submitStatus" });
+  
+      // Redirect to home page
+      navigate("/");
+    } catch (error) {
+      // Show error message
+      toast.error(
+        error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.", 
+        { id: "submitStatus" }
+      );
+      
+      console.error("Application submission error:", error);
+    }
+  };
 
 
   return (
@@ -186,12 +192,13 @@ const handleSubmit = async (e) => {
               />
 
             <FloatingLabelSelect 
-            label="Select City" 
-            options={optionCities}
-             onChange={handleChangeCity} 
-             isDisabled={isLoadingCities}
-             value={formData.city} 
-             />
+              label="Select City" 
+              options={optionCities} 
+              onChange={handleChangeCity} 
+              isDisabled={isLoadingCities} 
+              value={optionCities.find(city => city.value === formData.city) || null} // Convert city ID to object
+            />
+
 
             <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
             <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
@@ -201,97 +208,140 @@ const handleSubmit = async (e) => {
           </div>
 
         {/* Questionnaire  */}
-          <div className="flex flex-col gap-3 mt-3 w-full">
-            <h1 className="font-bold">Questionnaire</h1>
-            {locations.length > 0 ? (
-              <>
-                <p>Select a location where you want to Apply</p>
-                <Select
-                  label="Select Location"
-                  value={formData.selectedLocation}
-                  onChange={(value) => handleAnswerChange('location', value, 'location')}
-                  color="blue"
-                  className="bg-white text-gray-700"
+     
+
+
+{/* Replace the existing questionnaire section with this updated code */}
+<div className="flex flex-col gap-3 mt-3 w-full">
+  <h1 className="font-bold">Questionnaire</h1>
+  
+  {/* Location selection */}
+  {locations && locations.length > 0 && (
+    <div className="mb-4">
+      <p>Select a location where you want to Apply</p>
+      <Select
+        label="Select Location"
+        value={formData.selectedLocation}
+        onChange={(value) => handleAnswerChange('location', value, 'location')}
+        color="blue"
+        className="bg-white text-gray-700"
+      >
+        {locations.map((el) => (
+          <Option key={el.id} value={el.id}>
+            {el.city_name}
+          </Option>
+        ))}
+      </Select>
+    </div>
+  )}
+
+  {/* Questions section */}
+  {questions && questions.length > 0 ? (
+    <>
+      <p className="mb-4">Please fill the questionnaire below</p>
+      {questions.map((question, index) => {
+        if (!question) return null;
+        
+        const { id: questionId, question: questionText, question_type, options } = question;
+        
+        // console.log('Rendering question:', { questionId, questionText, question_type });
+
+        switch (question_type) {
+          case "Input Type":
+            return (
+              <div key={questionId} className="mb-4">
+                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+                <Input 
+                  color="blue" 
+                  label="Answer" 
+                  value={formData.questionnaire?.[questionId]?.value || ''}
+                  onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} 
+                  className="bg-white text-gray-700" 
+                />
+              </div>
+            );
+
+          case "Text Area":
+            return (
+              <div key={questionId} className="mb-4">
+                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+                <Textarea 
+                  color="blue" 
+                  label="Answer" 
+                  value={formData.questionnaire?.[questionId]?.value || ''}
+                  onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} 
+                  className="bg-white text-gray-700 border-2" 
+                />
+              </div>
+            );
+
+          case "Checkboxes":
+            return (
+              <div key={questionId} className="mb-4">
+                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+                {options?.map((option) => (
+                  <div key={option.id} className="flex items-center gap-2 mb-2">
+                    <Checkbox
+                      id={`${questionId}-${option.id}`}
+                      checked={formData.questionnaire?.[questionId]?.value?.includes(option.id)}
+                      onChange={() => handleAnswerChange(questionId, option.id, question_type)}
+                      color="blue"
+                    />
+                    <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
+                  </div>
+                ))}
+              </div>
+            );
+
+          case "Radio Buttons":
+            return (
+              <div key={questionId} className="mb-4">
+                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+                {options?.map((option) => (
+                  <div key={option.id} className="flex items-center gap-2 mb-2">
+                    <Radio 
+                      id={`${questionId}-${option.id}`}
+                      name={`question-${questionId}`}
+                      value={option.id}
+                      checked={formData.questionnaire?.[questionId]?.value === option.id}
+                      onChange={() => handleAnswerChange(questionId, option.id, question_type)}
+                      color="blue"
+                    />
+                    <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
+                  </div>
+                ))}
+              </div>
+            );
+
+          case "Dropdown List":
+            return (
+              <div key={questionId} className="mb-4">
+                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+                <Select 
+                  color="blue" 
+                  value={formData.questionnaire?.[questionId]?.value || ""}
+                  label="Select Option" 
+                  onChange={(value) => handleAnswerChange(questionId, value, question_type)} 
+                  className="bg-white text-gray-700 mt-1"
                 >
-                  {locations.map((el) => (
-                    <Option key={el.id} value={el.id}>
-                      {el.city_name}
+                  {options?.map((option) => (
+                    <Option key={option.id} value={option.id}>
+                      {option.option_text}
                     </Option>
                   ))}
                 </Select>
-              </>
-            ) : (
-              <></>
-            )}
+              </div>
+            );
 
-            <p>Please fill the questionnaire below</p>
-            {questions.map((question, index) => {
-              const { id:questionId, question: questionText, question_type, options } = question;
-              switch (question_type) {
-                case "Input Type":
-                  return (
-                    <div key={questionId} className="mb-2">
-                      <p>{`${index + 1}. ${questionText}`}</p>
-                      <Input color="blue" label="Answer" onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} className="bg-white text-gray-700" />
-                    </div>
-                  );
-                case "Text Area":
-                  return (
-                    <div key={questionId} className="mb-2">
-                      <p>{`${index + 1}. ${questionText}`}</p>
-                      <Textarea color="blue" label="Answer" onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} className="bg-white text-gray-700 border-2" />
-                    </div>
-                  );
-                case "Checkboxes":
-                  return (
-                    <div key={questionId} className="mb-2">
-                      <p>{`${index + 1}. ${questionText}`}</p>
-                      {options.map((option) => (
-                        <div key={option.id} className="flex items-center gap-2">
-                          <Checkbox
-                            type="checkbox"
-                            id={option.id}
-                            name={option.id}
-                            value={option.id}
-                            onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
-                            color="blue"
-                          />
-                          <label htmlFor={option.id}>{option.option_text}</label>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                case "Radio Buttons":
-                  return (
-                    <div key={questionId} className="mb-2">
-                      <p>{`${index + 1}. ${questionText}`}</p>
-                      {options.map((option) => (
-                        <div key={option.id} className="flex items-center gap-2">
-                          <Radio id={option.id} name={questionId} value={option.question_id} onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} color="blue" />
-                          <label htmlFor={option.id}>{option.option_text}</label>
-                        </div>
-                      ))}
-                    </div>
-                  );
-                case "Dropdown List":
-                  // Here in the dropDown list i am passing value instead of "e" in onChange handler this is because of the Material tailwind css and some other UI libraries in custom dropdown does not have "e".
-                  return (
-                    <div key={questionId} className="mb-2">
-                      <p>{`${index + 1}. ${questionText}`}</p>
-                      <Select color="blue" value={formData.questionnaire[questionId]?.value || ""} label="Location" onChange={(value) => handleAnswerChange(questionId, value, question_type)} className="bg-white text-gray-700 mt-1">
-                        {options.map((option) => (
-                          <Option key={option.id} value={option.id}>
-                            {option.option_text}
-                          </Option>
-                        ))}
-                      </Select> 
-                    </div>
-                  );
-                default:
-                  return null;
-              }
-            })}
-          </div>
+          default:
+            return null;
+        }
+      })}
+    </>
+  ) : (
+    <p className="text-gray-500">No questionnaire available for this position.</p>
+  )}
+</div>
 
           <div className="place-self-start">
   <h3 className="font-bold mb-5">Attachment Info</h3>
