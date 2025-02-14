@@ -35,7 +35,6 @@ function ApplyForm() {
     handleInputChange,
     handleFileChange,
     handleAnswerChange,
- 
     isSubmitting,
     sendApplication,
     isLoadingCities
@@ -49,7 +48,7 @@ function ApplyForm() {
   console.log(vacanceyQuestions)
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
-
+console.log(locations)
   const optionCountries = allStates.map((country) => ({
     value: country.id,
     label: country.name,
@@ -65,32 +64,26 @@ function ApplyForm() {
     valueName:city.id
   }))
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     const submitFormData = new FormData();
   
-    // Convert questionnaire object to an array of objects
-    const questionnaireArray = Object.entries(formData.questionnaire || {}).map(
-      ([questionId, { type, value }]) => ({
-        questionId,
-        type,
-        value,
-      })
-    );
-
-    console.log(questionnaireArray)
-  
     // Append fields to FormData
     for (const key in formData) {
-      if (formData[key] !== null && formData[key] !== undefined) {
+      if (formData[key] != null) {
         if (key === "cv" || key === "applicant_img") {
           if (formData[key] instanceof File) {
             submitFormData.append(key, formData[key]);
           }
         } else if (key === "questionnaire") {
-          submitFormData.append("questionnaire", questionnaireArray);
+          // ✅ Append the questionnaire array directly without converting to JSON string
+          formData[key].forEach((q, index) => {
+            submitFormData.append(`questionnaire[${index}][question]`, q.question);
+            q.answers.forEach((answer, ansIndex) => {
+              submitFormData.append(`questionnaire[${index}][answers][${ansIndex}]`, answer);
+            });
+          });
         } else {
           submitFormData.append(key, formData[key]);
         }
@@ -105,9 +98,7 @@ function ApplyForm() {
   
     try {
       toast.loading("Submitting application...", { id: "submitStatus" });
-  
       await sendApplication(submitFormData);
-  
       toast.success("Application submitted successfully!", { id: "submitStatus" });
       navigate("/");
     } catch (error) {
@@ -118,6 +109,7 @@ function ApplyForm() {
       console.error("Application submission error:", error);
     }
   };
+  
   
 
 
@@ -148,7 +140,10 @@ function ApplyForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <Input label="Name" color="blue" type="text" name="name" onChange={handleInputChange} className="bg-white text-gray-700" />
               <Input label="Father Name" name="father_name" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
+            
+
               <CustomDatePicker label="Date of Birth" name="dob" onChange={handleInputChange} value={formData.dob} />
+              
 
 
 
@@ -232,111 +227,114 @@ function ApplyForm() {
   )}
 
   {/* Questions section */}
-  {questions && questions.length > 0 ? (
-    <>
-      <p className="mb-4">Please fill the questionnaire below</p>
-      {questions.map((question, index) => {
-        if (!question) return null;
-        
-        const { id: questionId, question: questionText, question_type, options } = question;
-        
-        // console.log('Rendering question:', { questionId, questionText, question_type });
+  {questions.map((question, index) => {
+  if (!question) return null;
 
-        switch (question_type) {
-          case "Input Type":
-            return (
-              <div key={questionId} className="mb-4">
-                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
-                <Input 
-                  color="blue" 
-                  label="Answer" 
-                  value={formData.questionnaire?.[questionId]?.value || ''}
-                  onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} 
-                  className="bg-white text-gray-700" 
+  console.log(question)
+  const { id: questionId, question: questionText, question_type, options } = question;
+  const questionData = formData.questionnaire?.find((q) => q.question === questionId) || { answers: [] };
+
+  switch (question_type) {
+    case "Input Type":
+      return (
+        <div key={questionId} className="mb-4">
+          <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+          <Input
+            color="blue"
+            label="Answer"
+            value={questionData.answers[0] || ""}
+            onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
+            className="bg-white text-gray-700"
+          />
+        </div>
+      );
+
+    case "Text Area":
+      return (
+        <div key={questionId} className="mb-4">
+          <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+          <Textarea
+            color="blue"
+            label="Answer"
+            value={questionData.answers[0] || ""}
+            onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
+            className="bg-white text-gray-700 border-2"
+          />
+        </div>
+      );
+
+      case "Checkboxes":
+        return (
+          <div key={questionId} className="mb-4">
+            <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+            {options?.map((option) => (
+              <div key={option.id} className="flex items-center gap-2 mb-2">
+                <Checkbox
+                  id={`${questionId}-${option.id}`}
+                  checked={
+                    formData.questionnaire
+                      ?.find((q) => q.question === questionId)
+                      ?.answers?.includes(option.id) || false
+                  }
+                  onChange={() => handleAnswerChange(questionId, option.id, question_type)}
+                  color="blue"
                 />
+                <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
               </div>
-            );
+            ))}
+          </div>
+        );
+      
 
-          case "Text Area":
-            return (
-              <div key={questionId} className="mb-4">
-                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
-                <Textarea 
-                  color="blue" 
-                  label="Answer" 
-                  value={formData.questionnaire?.[questionId]?.value || ''}
-                  onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)} 
-                  className="bg-white text-gray-700 border-2" 
-                />
-              </div>
-            );
+    case "Radio Buttons":
+      return (
+        <div key={questionId} className="mb-4">
+          <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+          {options?.map((option) => (
+            <div key={option.id} className="flex items-center gap-2 mb-2">
+              <Radio
+                id={`${questionId}-${option.id}`}
+                name={`question-${questionId}`}
+                value={option.id}
+                checked={questionData.answers[0] === option.id}
+                onChange={() => handleAnswerChange(questionId, option.id, question_type)}
+                color="blue"
+              />
+              <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
+            </div>
+          ))}
+        </div>
+      );
 
-          case "Checkboxes":
-            return (
-              <div key={questionId} className="mb-4">
-                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
-                {options?.map((option) => (
-                  <div key={option.id} className="flex items-center gap-2 mb-2">
-                    <Checkbox
-                      id={`${questionId}-${option.id}`}
-                      checked={formData.questionnaire?.[questionId]?.value?.includes(option.id)}
-                      onChange={() => handleAnswerChange(questionId, option.id, question_type)}
-                      color="blue"
-                    />
-                    <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
-                  </div>
-                ))}
-              </div>
-            );
+    case "Dropdown List":
+      return (
+        <div key={questionId} className="mb-4">
+          <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
+          <Select
+            color="blue"
+            value={questionData.answers[0] || ""}
+            label="Select Option"
+            onChange={(value) => handleAnswerChange(questionId, value, question_type)}
+            className="bg-white text-gray-700 mt-1"
+          >
+            {options?.map((option) => (
+              <Option key={option.id} value={option.id}>
+                {option.option_text}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      );
 
-          case "Radio Buttons":
-            return (
-              <div key={questionId} className="mb-4">
-                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
-                {options?.map((option) => (
-                  <div key={option.id} className="flex items-center gap-2 mb-2">
-                    <Radio 
-                      id={`${questionId}-${option.id}`}
-                      name={`question-${questionId}`}
-                      value={option.id}
-                      checked={formData.questionnaire?.[questionId]?.value === option.id}
-                      onChange={() => handleAnswerChange(questionId, option.id, question_type)}
-                      color="blue"
-                    />
-                    <label htmlFor={`${questionId}-${option.id}`}>{option.option_text}</label>
-                  </div>
-                ))}
-              </div>
-            );
+    default:
+      return null;
+  }
+})}
 
-          case "Dropdown List":
-            return (
-              <div key={questionId} className="mb-4">
-                <p className="mb-2">{`${index + 1}. ${questionText}`}</p>
-                <Select 
-                  color="blue" 
-                  value={formData.questionnaire?.[questionId]?.value || ""}
-                  label="Select Option" 
-                  onChange={(value) => handleAnswerChange(questionId, value, question_type)} 
-                  className="bg-white text-gray-700 mt-1"
-                >
-                  {options?.map((option) => (
-                    <Option key={option.id} value={option.id}>
-                      {option.option_text}
-                    </Option>
-                  ))}
-                </Select>
-              </div>
-            );
 
-          default:
-            return null;
-        }
-      })}
-    </>
-  ) : (
-    <p className="text-gray-500">No questionnaire available for this position.</p>
-  )}
+
+
+
 </div>
 
           <div className="place-self-start">

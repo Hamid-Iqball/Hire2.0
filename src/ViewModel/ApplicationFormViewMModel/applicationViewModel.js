@@ -82,7 +82,7 @@ const applicationViewModel = (set, get) => ({
       }
 
       const data = response.data;
-      // console.log("Vacancy Data:", data); 
+      console.log("Vacancy Data:", data); 
 
       if (data.STATUS === "SUCCESSFUL") {
         // console.log("Updating State with:", data.DB_DATA); 

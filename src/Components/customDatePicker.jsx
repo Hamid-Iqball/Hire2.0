@@ -32,7 +32,7 @@ const CustomDatePicker = ({ label, name, onChange, value }) => {
   };
 
   return (
-    <div className="relative min-h-[50px] w-full ">
+    <div className="relative min-h-[50px] w-full bg-red-300 ">
       <label
         className={`absolute left-2 text-sm transition-all duration-200 ${
           selectedDate || inputValue

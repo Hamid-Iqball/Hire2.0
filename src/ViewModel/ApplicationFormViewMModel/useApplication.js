@@ -1,4 +1,4 @@
-import { format, parseISO, isValid, parse } from "date-fns";
+import { format, parse } from "date-fns";
 import { useState } from "react"
 import useStore from "../../Store/Store"
 
@@ -34,7 +34,7 @@ export const useApplication = ()=>{
       cv:null,
       applicant_img:null,
       city_id:"",
-      questionnaire: {},
+      questionnaire: [],
      
     })
 
@@ -119,28 +119,55 @@ export const useApplication = ()=>{
       
 
 
-    //Questionniers inputs
-    const handleAnswerChange = (questionId, value, type) => {
-      setFormData((prev) => {
-        const prevValue = prev.questionnaire[questionId]?.value || [];
+      const handleAnswerChange = (questionId, value, questionType) => {
+        setFormData((prevFormData) => {
+          const updatedQuestionnaire = prevFormData.questionnaire ? [...prevFormData.questionnaire] : [];
+      
+          // Find the index of the question
+          const questionIndex = updatedQuestionnaire.findIndex((q) => q.question === questionId);
+      
+          if (questionType === "Checkboxes") {
+            if (questionIndex === -1) {
+              // If the question doesn't exist, create it with the first selected value
+              updatedQuestionnaire.push({ question: questionId, answers: [value] });
+            } else {
+              // Toggle the value in the answers array
+              const existingAnswers = updatedQuestionnaire[questionIndex].answers || [];
+              const updatedAnswers = existingAnswers.includes(value)
+                ? existingAnswers.filter((ans) => ans !== value) // Remove if already selected
+                : [...existingAnswers, value]; // Add if not selected
+      
+              updatedQuestionnaire[questionIndex] = {
+                ...updatedQuestionnaire[questionIndex],
+                answers: updatedAnswers,
+              };
+            }
+          } else {
+            
+            if (questionIndex === -1) {
+              updatedQuestionnaire.push({ question: questionId, answers: [value] });
+            } else {
+              updatedQuestionnaire[questionIndex] = {
+                ...updatedQuestionnaire[questionIndex],
+                answers: [value],
+              };
+            }
+          }
+      
+          return { ...prevFormData, questionnaire: updatedQuestionnaire };
+        });
+      };
+      
+      
     
-        return {
-          ...prev,
-          questionnaire: {
-            ...prev.questionnaire,
-            [questionId]: {
-              type,
-              value:
-                type === "Checkboxes"
-                  ? prevValue.includes(value)
-                    ? prevValue.filter((v) => v !== value) // Remove if already selected
-                    : [...prevValue, value] // Add new checkbox selection
-                  : value, // Set for other input types
-            },
-          },
-        };
-      });
-    };
+    
+    
+    
+    
+    
+    
+    
+    
     
 
 
