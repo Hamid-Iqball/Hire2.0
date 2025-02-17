@@ -36,15 +36,14 @@ function ApplyForm() {
     isLoadingCities,
     
   } = useApplication();
-  const {handleSubmit} = useSubmitApplication({orgId,org_name, jobTitle , jobId})
+  const {handleSubmit} = useSubmitApplication({orgId,org_name, jobTitle , jobId,formData})
 
   useEffect(() => {
     getAllStates();
     getVacancey(jobId);
   }, [getAllStates, getVacancey, jobId]);
 
- 
-  
+
   
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];

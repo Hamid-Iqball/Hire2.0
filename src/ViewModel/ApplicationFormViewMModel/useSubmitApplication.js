@@ -1,20 +1,18 @@
 import toast from "react-hot-toast";
 import { useApplication } from "./useApplication";
 import { useNavigate } from "react-router";
-import { useState, useEffect } from "react";
 
-export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId }) => {
+
+export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId ,formData}) => {
   const navigate = useNavigate();
-  const { formData: initialFormData, sendApplication } = useApplication();
-  console.log(initialFormData)
-  const [localFormData, setLocalFormData] = useState(initialFormData);
+  
 
-  useEffect(() => {
-    setLocalFormData(initialFormData);
-  }, [initialFormData]);
+const {sendApplication}  = useApplication()
+
 
 
   const validateFn = (data) => {
+    console.log(data)
     const errors = [];
 
     if (!data?.name?.trim()) errors.push("Name is required");
@@ -36,21 +34,21 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isValid = validateFn(localFormData);
+    const isValid = validateFn(formData);
     if (!isValid) return;
 
     const submitFormData = new FormData();
 
 
     // Append fields to FormData
-    for (const key in localFormData) {
-      if (localFormData[key] != null) {
+    for (const key in formData) {
+      if (formData[key] != null) {
         if (key === "cv" || key === "applicant_img") {
-          if (localFormData[key] instanceof File) {
-            submitFormData.append(key, localFormData[key]);
+          if (formData[key] instanceof File) {
+            submitFormData.append(key, formData[key]);
           }
         } else if (key === "questionnaire") {
-          localFormData[key].forEach((q, index) => {
+          formData[key].forEach((q, index) => {
             submitFormData.append(`questionnaire[${index}][question]`, q.question);
             q.answers.forEach((answer, ansIndex) => {
               submitFormData.append(
@@ -60,7 +58,7 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId }) => {
             });
           });
         } else {
-          submitFormData.append(key, localFormData[key]);
+          submitFormData.append(key, formData[key]);
         }
       }
     }
@@ -88,7 +86,6 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId }) => {
 
   return {
     handleSubmit,
-    localFormData,
-    setLocalFormData // Expose these so you can update the form data
+     // Expose these so you can update the form data
   };
 };
