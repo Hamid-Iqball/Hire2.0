@@ -39,17 +39,26 @@ const customStyles = {
   }),
 };
 
-function FloatingLabelSelect({ label, options, onChange, value, isDisabled }) {
+function FloatingLabelSelect({ label, options, onChange, value, isDisabled, required }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleChange = (selected) => {
-  
-    console.log(selected)
+    setError(false); // Clear error when user selects a value
     onChange?.(selected);
   };
 
+  const handleBlur = () => {
+    setTimeout(() => {
+      if (required && !value) {
+        setError(true); // Show error if required and no value selected
+      }
+    }, 0); // Delay to ensure latest value is used
+  };
+  
+
   return (
-    <div className="relative min-h-[50px]">
+    <div className="relative min-h-[70px]">
       <label
         className={`absolute left-2 text-sm transition-all duration-200 ${
           isFocused || value
@@ -57,19 +66,20 @@ function FloatingLabelSelect({ label, options, onChange, value, isDisabled }) {
             : "top-[9px] text-sm z-10 left-3 text-[#698192]"
         } ${!isFocused ? "text-[#979ea1]" : "text-blue-500"}`}
       >
-        {label}
+        {label} {required && <span className="text-red-500">*</span>}
       </label>
       <Select
         options={options}
         styles={customStyles}
         value={value}
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onBlur={handleBlur}
         onChange={handleChange}
         isDisabled={isDisabled}
         isClearable
         menuPortalTarget={document.body}
       />
+      {error && <p className="text-red-500 text-xs mt-1">This field is required</p>}
     </div>
   );
 }

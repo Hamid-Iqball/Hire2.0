@@ -3,6 +3,7 @@ import { useState } from "react"
 import useStore from "../../Store/Store"
 
 
+
 export const useApplication = ()=>{
   const allStates = useStore((state)=>state.allStates)
   const getAllStates = useStore((state)=>state.getAllStates)
@@ -35,46 +36,31 @@ export const useApplication = ()=>{
       applicant_img:null,
       city_id:"",
       questionnaire: [],
-     
     })
 
-      // // Handle country selection
-      const handleCountryChange = (selected) => {
-        console.log(selected)
-        if (selected && selected.id) {
-          getAllCities(selected.id);
-        }
-      // console.log(selected)
-      setFormData(prev => ({
-      ...prev,
-      state: selected.id // Store the entire selected option
-      }));
-      // console.log(selected)
-      };
+  
 
-
-
-      const handleChangeCity = (selectedOption) => {
-        if (!selectedOption) {
-          setFormData((prev) => ({
-            ...prev,
-            city: "",
-          }));
-          return;
-        }
-      
+    const handleCountryChange = (selected) => {
+      if (selected?.id) {
+        console.log(selected); // Keep only necessary logs
+        getAllCities(selected.id);
+        
         setFormData((prev) => ({
           ...prev,
-          city: selectedOption.value,
-          // Optionally store city name if needed
-        
+          state: selected.id, // Store country ID
         }));
-      };
+      }
+    };
+    
+    const handleChangeCity = (selectedOption) => {
+      setFormData((prev) => ({
+        ...prev,
+        city: selectedOption?.value || "", // Ensure it resets properly if no selection
+      }));
+    };
+    
 
-      //Basic Info inputs
-
-   
-
+  
     //1
 
     
@@ -154,36 +140,32 @@ export const useApplication = ()=>{
             }
           }
       
+
+          
+          
           return { ...prevFormData, questionnaire: updatedQuestionnaire };
         });
       };
       
+      console.log(formData)
+
+      const handleFileChange = (e, fieldName) => {
+        const file = e.target.files[0];
+        
       
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-    const handleFileChange = (e, fieldName) => {
-      const file = e.target.files[0];
-    
-      // console.log(file); // Log file details
-    
-      setFormData(prev => ({
+        
+        setFormData(prev => ({
         ...prev,
         [fieldName]: file || null, // Store different files separately
       }));
     };
+
+
     
+   
 
-
-return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities , setFormData}
+    
+return {allStates, getAllStates,getAllCities , getVacancey ,vacanceyQuestions, sendApplication , formData , handleAnswerChange, handleInputChange, handleCountryChange, handleFileChange,isSubmitting , allCities , handleChangeCity, isLoadingCities , setFormData }    
 }
+
 

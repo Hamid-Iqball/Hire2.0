@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import FloatingLabelSelect from "../Components/FloatingLabelSelect";
 import { useApplication } from "../ViewModel/ApplicationFormViewMModel/useApplication";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
+
 
 import CustomDatePicker from "../Components/customDatePicker";
 import { useSubmitApplication } from "../ViewModel/ApplicationFormViewMModel/useSubmitApplication";
@@ -18,8 +18,7 @@ function ApplyForm() {
   const { jobId, jobTitle, location: JobLocation, orgDetails  } = location.state || {};
   const organaisation = orgDetails[0]
   const {org_name, id:orgId} = organaisation
-  
-  
+
   const {
     getAllStates,
     allStates,
@@ -34,8 +33,8 @@ function ApplyForm() {
     handleFileChange,
     handleAnswerChange,
     isSubmitting,
+    isLoadingCities,
     
-    isLoadingCities
   } = useApplication();
   const {handleSubmit} = useSubmitApplication({orgId,org_name, jobTitle , jobId})
 
@@ -44,6 +43,8 @@ function ApplyForm() {
     getVacancey(jobId);
   }, [getAllStates, getVacancey, jobId]);
 
+ 
+  
   
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
@@ -56,60 +57,14 @@ function ApplyForm() {
 ));
 
 
+
   const optionCities = allCities.map((city)=>({
     value:city.id,
     label: city.city_name,
     valueName:city.id
   }))
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
- 
-  //   const submitFormData = new FormData();
-  
-  //   // Append fields to FormData
-  //   for (const key in formData) {
-  //     if (formData[key] != null) {
-  //       if (key === "cv" || key === "applicant_img") {
-  //         if (formData[key] instanceof File) {
-  //           submitFormData.append(key, formData[key]);
-  //         }
-  //       } else if (key === "questionnaire") {
-  //         // ✅ Append the questionnaire array directly without converting to JSON string
-  //         formData[key].forEach((q, index) => {
-  //           submitFormData.append(`questionnaire[${index}][question]`, q.question);
-  //           q.answers.forEach((answer, ansIndex) => {
-  //             submitFormData.append(`questionnaire[${index}][answers][${ansIndex}]`, answer);
-  //           });
-  //         });
-  //       } else {
-  //         submitFormData.append(key, formData[key]);
-  //       }
-  //     }
-  //   }
-  
-  //   submitFormData.append("operation", "apply_profile_vacancy");
-  //   submitFormData.append("org_id", orgId);
-  //   submitFormData.append("org_name", org_name);
-  //   submitFormData.append("v_name", jobTitle);
-  //   submitFormData.append("id", jobId);
-  
-  //   try {
-  //     toast.loading("Submitting application...", { id: "submitStatus" });
-  //     await sendApplication(submitFormData);
 
-  //     toast.success("Application submitted successfully!", { id: "submitStatus" });
-  //     navigate("/");
-  //   } catch (error) {
-  //     toast.error(
-  //       error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.",
-  //       { id: "submitStatus" }
-  //     );
-  //     console.error("Application submission error:", error);
-  //   }
-  // };
-  
-  
 
 
   return (
@@ -137,20 +92,51 @@ function ApplyForm() {
             <h1 className="font-bold">Profile Info</h1>
               {/* Profile information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <Input label="Name" color="blue" type="text" name="name" onChange={handleInputChange} className="bg-white text-gray-700" />
-              <Input label="Father Name" name="father_name" color="blue" type="text" onChange={handleInputChange} className="bg-white text-gray-700" />
+            <div className="relative">
+                <Input 
+                  label="Name" 
+                  color="blue" 
+                  type="text" 
+                  name="name" 
+                  onChange={handleInputChange} 
+                  className='bg-white text-gray-700 focus:border-2 focus:border-blue-500'
+             
+          
+                />
+              
+              </div>
+
+            <div className="relative">
+                <Input 
+                  label="Father Name" 
+                  name="father_name" 
+                  color="blue" 
+                  type="text" 
+                  onChange={handleInputChange} 
+                  className="bg-white text-gray-700 focus:border-2 focus:border-blue-500"
+                            labelProps={{
+                    
+                  }}
+                />
+              </div>
             
 
-              <CustomDatePicker label="Date of Birth" name="dob" onChange={handleInputChange} value={formData.dob} />
+              <CustomDatePicker 
+                label="Date of Birth" 
+                name="dob" 
+                onChange={handleInputChange} 
+                value={formData.dob}
+       
               
-
-
+              />
+              
 
             <Select 
                   label="Gender" 
                   name="gender" 
                   onChange={(value) => handleInputChange(value,"gender")} 
                   className="bg-white text-gray-700"
+         
                 >
                   <Option value="1">Male</Option> 
                   <Option value="0">Female</Option> 
@@ -159,13 +145,14 @@ function ApplyForm() {
 
 
 
-            <Input label="National ID" type="number" name="cnic" onChange={handleInputChange} color="blue" className="bg-white text-gray-700"/>
+            <Input label="National ID" type="number" name="cnic" onChange={handleInputChange}  color="blue" className="bg-white text-gray-700"/>
 
             <Select 
             label="marital_status"
             name="marital_status"
             onChange={(value)=>handleInputChange(value,"marital_status")}
             className="bg-white text-gray-700"
+    
             >
               <Option value="single">Single</Option>
               <Option value="married">married</Option>
@@ -178,7 +165,9 @@ function ApplyForm() {
               options={optionCountries}
               onChange={handleCountryChange}
               isDisabled={isLoading}
-              value={formData.country}
+              
+              value={optionCountries.find(country=>country.value=== formData.state
+              )}
               />
 
             <FloatingLabelSelect 
@@ -186,14 +175,15 @@ function ApplyForm() {
               options={optionCities} 
               onChange={handleChangeCity} 
               isDisabled={isLoadingCities} 
+              
               value={optionCities.find(city => city.value === formData.city) || null} // Convert city ID to object
             />
 
 
-            <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
-            <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
-            <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange}/>
-            <Textarea type="text" label=" Permanent Address" name="permanent_add" color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
+            <Input type="tel" label="Phone No" name="phone_no" color="blue" className="bg-white text-gray-700"  onChange={handleInputChange} />
+            <Input type="email" label="Email" name="email" color="blue" className="bg-white text-gray-700"  onChange={handleInputChange} />
+            <Textarea type="text" label=" Postal Address" name="postal_add" color="blue" className="bg-white text-gray-700"  onChange={handleInputChange}/>
+            <Textarea type="text" label=" Permanent Address" name="permanent_add"  color="blue" className="bg-white text-gray-700" onChange={handleInputChange} />
             </div>
           </div>
 
@@ -213,6 +203,7 @@ function ApplyForm() {
         label="Select Location"
         value={formData.selectedLocation}
         onChange={(value) => handleInputChange(value,'city_id')}
+        
         color="blue"
         className="bg-white text-gray-700"
       >
@@ -229,7 +220,6 @@ function ApplyForm() {
   {questions.map((question, index) => {
   if (!question) return null;
 
-  console.log(question)
   const { id: questionId, question: questionText, question_type, options } = question;
   const questionData = formData.questionnaire?.find((q) => q.question === questionId) || { answers: [] };
 
@@ -243,6 +233,7 @@ function ApplyForm() {
             label="Answer"
             value={questionData.answers[0] || ""}
             onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
+            
             className="bg-white text-gray-700"
           />
         </div>
@@ -256,6 +247,7 @@ function ApplyForm() {
             color="blue"
             label="Answer"
             value={questionData.answers[0] || ""}
+            
             onChange={(e) => handleAnswerChange(questionId, e.target.value, question_type)}
             className="bg-white text-gray-700 border-2"
           />
@@ -275,6 +267,7 @@ function ApplyForm() {
                       ?.find((q) => q.question === questionId)
                       ?.answers?.includes(option.id) || false
                   }
+                  
                   onChange={() => handleAnswerChange(questionId, option.id, question_type)}
                   color="blue"
                 />
