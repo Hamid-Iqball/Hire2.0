@@ -17,7 +17,7 @@ const navigate = useNavigate()
 const location = useLocation()
 const {jobDetails, orgDetails} = location.state
 
-
+console.log(jobDetails)
 
 const handleApply = ()=>{
 navigate("/applyform" , {

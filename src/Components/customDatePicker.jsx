@@ -32,7 +32,7 @@ const CustomDatePicker = ({ label, name, onChange, value }) => {
   };
 
   return (
-    <div className="relative min-h-[50px] w-full bg-red-300 ">
+    <div className="relative flex  min-h-[50px] w-full bg-white border rounded-md">
       <label
         className={`absolute left-2 text-sm transition-all duration-200 ${
           selectedDate || inputValue
@@ -46,7 +46,7 @@ const CustomDatePicker = ({ label, name, onChange, value }) => {
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd"
-        className=" min-w-full bg-white text-gray-700 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className=" min-w-full flex-1 bg-white text-gray-700 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         // placeholderText="YYYY-MM-DD"
         value={inputValue}
         onChangeRaw={(e) => handleInputChange(e)}

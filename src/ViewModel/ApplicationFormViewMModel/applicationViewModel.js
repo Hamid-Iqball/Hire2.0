@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { GiConsoleController } from "react-icons/gi";
 import ApplicationFormApi from "../../Model/ApplicationForm/applicationformApi";
+import toast from "react-hot-toast";
 
 const applicationViewModel = (set, get) => ({
   allStates: [],
@@ -89,7 +90,7 @@ const applicationViewModel = (set, get) => ({
 
         set((state) => ({ ...state, vacanceyQuestions: data.DB_DATA })); 
       } else {
-        throw new Error(data.Error || "Unknown API Error");
+        toast.error(data.ERROR_DESCRIPTION);
       }
     } catch (error) {
       console.error("Error fetching vacancy questions:", error.message || error);

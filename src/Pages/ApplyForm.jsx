@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 import CustomDatePicker from "../Components/customDatePicker";
+import { useSubmitApplication } from "../ViewModel/ApplicationFormViewMModel/useSubmitApplication";
 // import toast from "react-hot-toast";
 
 
@@ -15,13 +16,10 @@ function ApplyForm() {
   const location = useLocation();
   const navigate = useNavigate();
   const { jobId, jobTitle, location: JobLocation, orgDetails  } = location.state || {};
-
-  
-
   const organaisation = orgDetails[0]
   const {org_name, id:orgId} = organaisation
   
-
+  
   const {
     getAllStates,
     allStates,
@@ -36,19 +34,20 @@ function ApplyForm() {
     handleFileChange,
     handleAnswerChange,
     isSubmitting,
-    sendApplication,
+    
     isLoadingCities
   } = useApplication();
+  const {handleSubmit} = useSubmitApplication({orgId,org_name, jobTitle , jobId})
 
   useEffect(() => {
     getAllStates();
     getVacancey(jobId);
   }, [getAllStates, getVacancey, jobId]);
 
-  console.log(vacanceyQuestions)
+  
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
-console.log(locations)
+
   const optionCountries = allStates.map((country) => ({
     value: country.id,
     label: country.name,
@@ -56,7 +55,6 @@ console.log(locations)
   }
 ));
 
-// console.log(allCities)
 
   const optionCities = allCities.map((city)=>({
     value:city.id,
@@ -64,51 +62,52 @@ console.log(locations)
     valueName:city.id
   }))
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+ 
+  //   const submitFormData = new FormData();
   
-    const submitFormData = new FormData();
+  //   // Append fields to FormData
+  //   for (const key in formData) {
+  //     if (formData[key] != null) {
+  //       if (key === "cv" || key === "applicant_img") {
+  //         if (formData[key] instanceof File) {
+  //           submitFormData.append(key, formData[key]);
+  //         }
+  //       } else if (key === "questionnaire") {
+  //         // ✅ Append the questionnaire array directly without converting to JSON string
+  //         formData[key].forEach((q, index) => {
+  //           submitFormData.append(`questionnaire[${index}][question]`, q.question);
+  //           q.answers.forEach((answer, ansIndex) => {
+  //             submitFormData.append(`questionnaire[${index}][answers][${ansIndex}]`, answer);
+  //           });
+  //         });
+  //       } else {
+  //         submitFormData.append(key, formData[key]);
+  //       }
+  //     }
+  //   }
   
-    // Append fields to FormData
-    for (const key in formData) {
-      if (formData[key] != null) {
-        if (key === "cv" || key === "applicant_img") {
-          if (formData[key] instanceof File) {
-            submitFormData.append(key, formData[key]);
-          }
-        } else if (key === "questionnaire") {
-          // ✅ Append the questionnaire array directly without converting to JSON string
-          formData[key].forEach((q, index) => {
-            submitFormData.append(`questionnaire[${index}][question]`, q.question);
-            q.answers.forEach((answer, ansIndex) => {
-              submitFormData.append(`questionnaire[${index}][answers][${ansIndex}]`, answer);
-            });
-          });
-        } else {
-          submitFormData.append(key, formData[key]);
-        }
-      }
-    }
+  //   submitFormData.append("operation", "apply_profile_vacancy");
+  //   submitFormData.append("org_id", orgId);
+  //   submitFormData.append("org_name", org_name);
+  //   submitFormData.append("v_name", jobTitle);
+  //   submitFormData.append("id", jobId);
   
-    submitFormData.append("operation", "apply_profile_vacancy");
-    submitFormData.append("org_id", orgId);
-    submitFormData.append("org_name", org_name);
-    submitFormData.append("v_name", jobTitle);
-    submitFormData.append("id", jobId);
-  
-    try {
-      toast.loading("Submitting application...", { id: "submitStatus" });
-      await sendApplication(submitFormData);
-      toast.success("Application submitted successfully!", { id: "submitStatus" });
-      navigate("/");
-    } catch (error) {
-      toast.error(
-        error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.",
-        { id: "submitStatus" }
-      );
-      console.error("Application submission error:", error);
-    }
-  };
+  //   try {
+  //     toast.loading("Submitting application...", { id: "submitStatus" });
+  //     await sendApplication(submitFormData);
+
+  //     toast.success("Application submitted successfully!", { id: "submitStatus" });
+  //     navigate("/");
+  //   } catch (error) {
+  //     toast.error(
+  //       error.response?.ERROR_DESCRIPTION || "Failed to submit application. Please try again.",
+  //       { id: "submitStatus" }
+  //     );
+  //     console.error("Application submission error:", error);
+  //   }
+  // };
   
   
 
