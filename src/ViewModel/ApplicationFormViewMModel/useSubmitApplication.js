@@ -16,12 +16,18 @@ const {sendApplication}  = useApplication()
     const errors = [];
 
     if (!data?.name?.trim()) errors.push("Name is required");
-    if (!data?.email?.trim()) errors.push("Email is required");
-    if (!data?.phone_no?.trim()) errors.push("Phone number is required");
+    if (!data?.father_name?.trim()) errors.push("Father Name is required");
     if (!data?.dob) errors.push("Date of Birth is required");
-    if (!data?.state) errors.push("State is required");
-    if (!data?.city) errors.push("City is required");
+    if (!data?.gender?.trim()) errors.push("Please select your gender");
     if (!data?.cnic?.trim()) errors.push("CNIC is required");
+    if (!data?.marital_status?.trim()) errors.push("Please select your Marital status");
+    if (!data?.state) errors.push("Country is required");
+    if (!data?.city) errors.push("City is required");
+    if (!data?.phone_no?.trim()) errors.push("Phone number is required");
+    if (!data?.email?.trim()) errors.push("Email is required");
+    if(!data?.postal_add.trim()) errors.push("Please enter your postal address")
+    if(!data?.permanent_add.trim()) errors.push("Please enter your permanent address")
+      if(!data?.questionnaire.length) errors.push("Please Answer all questions")
     if (!data?.cv) errors.push("CV is required");
     if (!data?.applicant_img) errors.push("Applicant image is required");
 

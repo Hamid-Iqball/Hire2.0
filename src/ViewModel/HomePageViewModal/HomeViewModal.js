@@ -11,7 +11,7 @@ const homeViewModal = (set, get) => ({
       set({ isLoading: true }); 
       try {
         const apiData = {
-            org_id : 15
+            org_id : 10381947
       
         }
 
