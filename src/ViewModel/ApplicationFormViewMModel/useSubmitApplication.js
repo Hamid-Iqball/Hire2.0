@@ -7,12 +7,11 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId ,formDat
   const navigate = useNavigate();
   
 
-const {sendApplication}  = useApplication()
+  const {sendApplication}  = useApplication()
 
-
-
+  //custom validation
   const validateFn = (data) => {
-    console.log(data)
+  
     const errors = [];
 
     if (!data?.name?.trim()) errors.push("Name is required");

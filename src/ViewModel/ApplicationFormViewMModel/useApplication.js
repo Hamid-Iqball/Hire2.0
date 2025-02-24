@@ -1,6 +1,7 @@
 import { format, parse } from "date-fns";
 import { useState } from "react"
 import useStore from "../../Store/Store"
+import dayjs from "dayjs";
 
 
 
@@ -67,29 +68,20 @@ export const useApplication = ()=>{
 
       const handleInputChange = (e, name) => {
         let fieldName, fieldValue;
-      
+      console.log(e,name)
         if (e?.target) {
           fieldName = e.target.name;
           fieldValue = e.target.value;
         } else {
           fieldName = name;
-          fieldValue = e; // This handles custom components like Select or DatePickers
+          fieldValue = e; // This handles custom components like Select
         }
       
         // Handle date formatting for "dob"
         if (fieldName === "dob" && fieldValue) {
-          try {
-            if (fieldValue instanceof Date) {
-              // If value is already a Date object, format it directly
-              fieldValue = format(fieldValue, "yyyy-MM-dd");
-            } else if (typeof fieldValue === "string") {
-              // If value is a string, try parsing it
-              const parsedDate = parse(fieldValue, "yyyy-MM-dd", new Date());
-              fieldValue = format(parsedDate, "yyyy-MM-dd");
-            }
-          } catch (error) {
-            console.error("Error formatting date:", error);
-          }
+        fieldName = name;
+        fieldValue = e ? dayjs(e).format("YYYY-MM-DD") : ""; // Format date properly
+
         }
       
         console.log(fieldName, fieldValue);
