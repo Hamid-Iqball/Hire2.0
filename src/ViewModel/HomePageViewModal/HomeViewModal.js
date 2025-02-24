@@ -12,7 +12,7 @@ const homeViewModal = (set, get) => ({
       try {
         const apiData = {
             org_id : 10381947
-      
+      //10381947
         }
 
         const response = await HomepageApi.getAllJobs(apiData);

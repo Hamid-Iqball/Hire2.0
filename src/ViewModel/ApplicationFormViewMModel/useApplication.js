@@ -1,4 +1,4 @@
-import { format, parse } from "date-fns";
+
 import { useState } from "react"
 import useStore from "../../Store/Store"
 import dayjs from "dayjs";
@@ -68,7 +68,7 @@ export const useApplication = ()=>{
 
       const handleInputChange = (e, name) => {
         let fieldName, fieldValue;
-      console.log(e,name)
+      // console.log(e,name)
         if (e?.target) {
           fieldName = e.target.name;
           fieldValue = e.target.value;
