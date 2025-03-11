@@ -7,7 +7,9 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId ,formDat
   const navigate = useNavigate();
   
 
-  const {sendApplication}  = useApplication()
+  const {sendApplication, vacanceyQuestions}  = useApplication()
+
+  const questions = vacanceyQuestions?.questionnaire || [];
 
   //custom validation
   const validateFn = (data) => {
@@ -26,7 +28,7 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId ,formDat
     if (!data?.email?.trim()) errors.push("Email is required");
     if(!data?.postal_add.trim()) errors.push("Please enter your postal address")
     if(!data?.permanent_add.trim()) errors.push("Please enter your permanent address")
-      if(!data?.questionnaire.length) errors.push("Please Answer all questions")
+      if(data?.questionnaire.length !== questions.length ) errors.push("Please Answer all questions")
     if (!data?.cv) errors.push("CV is required");
     if (!data?.applicant_img) errors.push("Applicant image is required");
 

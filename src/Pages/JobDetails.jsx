@@ -17,8 +17,9 @@ const navigate = useNavigate()
 const location = useLocation()
 const {jobDetails, orgDetails} = location.state
 
-console.log(jobDetails)
 
+// const isApplied = jobDetails.applied.applied
+// console.log(isApplied)
 const handleApply = ()=>{
 navigate("/applyform" , {
     state:{
@@ -145,6 +146,8 @@ navigate("/applyform" , {
         <div className="text-sm">
          <strong className="mb-1">Description</strong>
          <p>
+           
+
         {jobDetails.description
             .replace(/<br\s*\/?>/g, '\n') // Replace <br /> or <br> with \n
             .split('\n') // Split on \n for line breaks
@@ -154,6 +157,7 @@ navigate("/applyform" , {
                     {line.trim() && <br />} {/* Add a line break only if the line is not empty */}
                 </React.Fragment>
             ))}
+           
             </p>
         </div>
 

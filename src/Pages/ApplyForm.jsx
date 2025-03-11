@@ -47,6 +47,7 @@ function ApplyForm() {
   
   const locations = vacanceyQuestions?.locations || [];
   const questions = vacanceyQuestions?.questionnaire || [];
+  // console.log(questions)
 
   const optionCountries = allStates.map((country) => ({
     value: country.id,

@@ -11,7 +11,7 @@ function Home() {
   const location = useLocation();
 
   const {allJobs,getAllJobs,orgDetails} = useHomePage()
-  // console.log(orgDetails)
+  console.log(allJobs)
     useEffect(function(){
      getAllJobs()
     },[])
@@ -20,7 +20,7 @@ function Home() {
 
   function handleClick(job){
     navigate(`/vacancy/${job.id}`, {state:{jobDetails:job,
-      orgDetails:orgDetails
+      orgDetails:orgDetails,
      }});
    
   }
@@ -31,7 +31,7 @@ function Home() {
        <div className="p-2 w-52">
        {  orgDetails.map((orgLogo)=>(
          <span key={orgLogo.id}>
-            <img src={orgLogo.logo} alt="Logo" className="w-full" />
+            <img src={orgLogo.logo} alt="Logo" className="w-5/6" />
           </span>
           ))
        }
