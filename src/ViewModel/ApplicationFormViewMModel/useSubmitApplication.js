@@ -10,31 +10,86 @@ export const useSubmitApplication = ({ orgId, org_name, jobTitle, jobId ,formDat
   const {sendApplication, vacanceyQuestions}  = useApplication()
 
   const questions = vacanceyQuestions?.questionnaire || [];
-
-  //custom validation
+ 
   const validateFn = (data) => {
+    if (!data?.name?.trim()) {
+      toast.error("Name is required");
+      return false;
+    }
   
-    const errors = [];
-
-    if (!data?.name?.trim()) errors.push("Name is required");
-    if (!data?.father_name?.trim()) errors.push("Father Name is required");
-    if (!data?.dob) errors.push("Date of Birth is required");
-    if (!data?.gender?.trim()) errors.push("Please select your gender");
-    if (!data?.cnic?.trim()) errors.push("CNIC is required");
-    if (!data?.marital_status?.trim()) errors.push("Please select your Marital status");
-    if (!data?.state) errors.push("Country is required");
-    if (!data?.city) errors.push("City is required");
-    if (!data?.phone_no?.trim()) errors.push("Phone number is required");
-    if (!data?.email?.trim()) errors.push("Email is required");
-    if(!data?.postal_add.trim()) errors.push("Please enter your postal address")
-    if(!data?.permanent_add.trim()) errors.push("Please enter your permanent address")
-      if(data?.questionnaire.length !== questions.length ) errors.push("Please Answer all questions")
-    if (!data?.cv) errors.push("CV is required");
-    if (!data?.applicant_img) errors.push("Applicant image is required");
-
-    errors.forEach(error => toast.error(error));
-    return errors.length === 0;
+    if (!data?.father_name?.trim()) {
+      toast.error("Father Name is required");
+      return false;
+    }
+  
+    if (!data?.dob) {
+      toast.error("Date of Birth is required");
+      return false;
+    }
+  
+    if (!data?.gender?.trim()) {
+      toast.error("Please select your gender");
+      return false;
+    }
+  
+    if (!data?.cnic?.trim()) {
+      toast.error("CNIC is required");
+      return false;
+    }
+  
+    if (!data?.marital_status?.trim()) {
+      toast.error("Please select your Marital status");
+      return false;
+    }
+  
+    if (!data?.state) {
+      toast.error("Country is required");
+      return false;
+    }
+  
+    if (!data?.city) {
+      toast.error("City is required");
+      return false;
+    }
+  
+    if (!data?.phone_no?.trim()) {
+      toast.error("Phone number is required");
+      return false;
+    }
+  
+    if (!data?.email?.trim()) {
+      toast.error("Email is required");
+      return false;
+    }
+  
+    if (!data?.postal_add?.trim()) {
+      toast.error("Please enter your postal address");
+      return false;
+    }
+  
+    if (!data?.permanent_add?.trim()) {
+      toast.error("Please enter your permanent address");
+      return false;
+    }
+  
+    if (data?.questionnaire?.length !== questions.length) {
+      toast.error("Please answer all questions");
+      return false;
+    }
+  
+    if (!data?.cv) {
+      toast.error("CV is required");
+      return false;
+    }
+  
+    if (!data?.applicant_img) {
+      toast.error("Applicant image is required");
+      return false;
+    }
+  
+    return true; // all validations passed
   };
+  
 
 
   //Submit funciton
